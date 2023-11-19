@@ -4,6 +4,7 @@ import { DataContext } from "../../context/OTContext";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { updateUser } from "../../firebase";
+import { Card, Col, Input, Row } from "antd";
 
 export const ContactUs = () => {
   const { data, setData } = useContext(DataContext);
@@ -101,7 +102,7 @@ export const ContactUs = () => {
 
   return (
     <div>
-      <h1>Send Email</h1>
+      {/* <h1>Send Email</h1>
       <form onSubmit={handleSubmit}>
         <label>Email</label>
         <input
@@ -129,7 +130,42 @@ export const ContactUs = () => {
       </form>
       <div>
         <Link to="/register">Back to the registration page </Link>
-      </div>
+      </div> */}
+      <Row gutter={[8, 8]} justify={"center"}>
+        <Card
+          style={{
+            width: "1023px",
+            height: "700px",
+            marginTop: "100px",
+          }}
+        >
+          <form onSubmit={handleSubmit}>
+            <Row gutter={[8, 16]} justify={"center"}>
+              <Col
+                span={24}
+                style={{
+                  marginTop: "100px",
+                }}
+              >
+                OTP
+              </Col>
+              <Col span={24}>
+                For security reasons, we will send a One Time Password (OTP) to
+                your email as shown below.
+              </Col>
+              <Col span={12}>
+                <Input
+                  type="text"
+                  id="to"
+                  value={data.email}
+                  onChange={handleInputChange}
+                  disabled
+                />
+              </Col>
+            </Row>
+          </form>
+        </Card>
+      </Row>
     </div>
   );
 };
