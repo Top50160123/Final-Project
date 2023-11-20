@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { handleSubmit } from "./FunctionRegister";
 import { DataContext } from "../../context/OTContext";
 import { updateUser } from "../../firebase";
+import { Button, Card, Col, Input, Row } from "antd";
 
 function Register() {
   const { data, setData } = useContext(DataContext);
@@ -18,7 +19,7 @@ function Register() {
 
   return (
     <div>
-      <div>
+      {/* <div>
         <div>
           <h2>Register</h2>
           {error && <p>{error}</p>}
@@ -68,7 +69,67 @@ function Register() {
             Already have an account? <Link to="/login">Log in</Link>
           </div>
         </div>
-      </div>
+      </div> */}
+      <form onSubmit={handleSend}>
+        <Row gutter={[8, 8]} justify={"center"}>
+          <Card
+            style={{
+              width: "1023px",
+              height: "700px",
+              marginTop: "100px",
+            }}
+          >
+            <Row gutter={[8, 16]} justify={"center"}>
+              <Col
+                span={24}
+                style={{
+                  marginTop: "100px",
+                }}
+              >
+                Sign Up
+              </Col>
+              {error && <p>{error}</p>}
+              <Col span={15}>
+                <Input
+                  type="email"
+                  name="email"
+                  placeholder="Email address"
+                  value={data.email}
+                  onChange={setData}
+                />
+              </Col>
+              <Col span={15}>
+                <Input
+                  name="password"
+                  type="password"
+                  id="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => {
+                    setData(e);
+                    setPassword(e.target.value);
+                  }}
+                />
+              </Col>
+              <Col span={15}>
+                <Input
+                  type="password"
+                  id="confirmPassword"
+                  placeholder="Confirm Password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+              </Col>
+              <Col span={24}>
+                <Button htmlType="submit"> Create Account</Button>
+              </Col>
+              <Col span={24}>
+                Already have an account? <Link to="/login">Log in</Link>
+              </Col>
+            </Row>
+          </Card>
+        </Row>
+      </form>
     </div>
   );
 }

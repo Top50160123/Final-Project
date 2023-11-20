@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserAuth } from "../../context/UserAuthContext";
+import { Button, Card, Col, Input, Row } from "antd";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -24,7 +25,7 @@ function Login() {
 
   return (
     <div>
-      <div>
+      {/* <div>
         <div>
           <h2>Login</h2>
           {error && <div variant="danger">{error}</div>}
@@ -53,7 +54,52 @@ function Login() {
             Don't have an account? <Link to="/register">Sign up</Link>
           </div>
         </div>
-      </div>
+      </div> */}
+      <form onSubmit={handleSubmit}>
+        <Row gutter={[8, 8]} justify={"center"}>
+          <Card
+            style={{
+              width: "1023px",
+              height: "700px",
+              marginTop: "100px",
+            }}
+          >
+            <Row gutter={[8, 16]} justify={"center"}>
+              <Col
+                span={24}
+                style={{
+                  marginTop: "100px",
+                }}
+              >
+                Login User
+              </Col>
+              <Col span={15}>
+                <Input
+                  type="email"
+                  placeholder="Email address"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Col>
+              <Col span={15}>
+                <Input
+                  type="password"
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </Col>
+              <Col span={24}>
+                <Button>Login with Cmu Account</Button>
+              </Col>
+              <Col span={24}>
+                <Button htmlType="submit">Login</Button>
+              </Col>
+              <Col span={24}>
+                Don't have an account? <Link to="/register">Sign up</Link>
+              </Col>
+            </Row>
+          </Card>
+        </Row>
+      </form>
     </div>
   );
 }
