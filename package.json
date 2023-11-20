@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.2.6",
     "antd": "^5.11.2",
     "bootstrap": "^5.3.0",
     "emailjs-com": "^3.2.0",
