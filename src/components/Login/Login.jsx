@@ -34,36 +34,6 @@ function Login() {
           }
         `}
       </style>
-      {/* <div>
-        <div>
-          <h2>Login</h2>
-          {error && <div variant="danger">{error}</div>}
-          <form onSubmit={handleSubmit}>
-            <div controlid="formBasicEmail">
-              <input
-                type="email"
-                placeholder="Email address"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-
-            <div controlid="formBasicPassword">
-              <input
-                type="password"
-                placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <button type="submit">Sign In</button>
-            </div>
-          </form>
-          <div className="p-4 box mt-3 text-center">
-            Don't have an account? <Link to="/register">Sign up</Link>
-          </div>
-        </div>
-      </div> */}
       <form onSubmit={handleSubmit}>
         <Row gutter={[8, 8]} justify={"center"}>
           <Card
