@@ -4,7 +4,7 @@ import { DataContext } from "../../context/OTContext";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { updateUser } from "../../firebase";
-import { Card, Col, Input, Row } from "antd";
+import { Button, Card, Col, Input, Row } from "antd";
 
 export const ContactUs = () => {
   const { data, setData } = useContext(DataContext);
@@ -162,7 +162,43 @@ export const ContactUs = () => {
                   disabled
                 />
               </Col>
+              <Col span={3}>
+              <Button
+              htmlType="submit" disabled={!canSendOTP}
+              >
+              Send OTP {canSendOTP ? "" : `(${countdown}s)`}
+              </Button>
+              </Col>
             </Row>
+          </form>
+          <form onSubmit={validateOTP}>
+          <Row gutter={[8,16]} justify={'center'}
+          style={{
+            marginTop:"10px"
+          }}> 
+          <Col span={24}>
+          Enter your OTP to Sign Up
+          </Col>
+              <Col span={12}>
+              <Input
+              type="text"
+              id="otp"
+              value={otp}
+              onChange={(e) => setOTP(e.target.value)}
+              placeholder="Enter Yout OTP"
+              />
+              </Col>
+              <Col span={24}>
+              <Button
+              htmlType="submit"
+              >
+              Confirm
+              </Button>
+              </Col>
+              <Col span={24}>
+              <Link to="/register">Back to the registration page </Link>
+              </Col>
+          </Row>
           </form>
         </Card>
       </Row>
