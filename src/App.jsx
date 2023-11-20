@@ -41,7 +41,9 @@ function App() {
       style={{
         backgroundColor:"#14B538",
         color:"white",
-        width:"200px"
+        width:"150px",
+        border:"20px"
+        
       }}
       >
         <Link to={"/login"}>Login</Link>
@@ -50,7 +52,11 @@ function App() {
       <Col span={4}>
       <Button
       style={{
-        backgroundColor:"#F50505"
+        backgroundColor:"#F50505",
+        color:"white",
+        width:"150px",
+        border:"20px"
+        
       }}
       >
         <Link to={"/register"}>Register</Link>
