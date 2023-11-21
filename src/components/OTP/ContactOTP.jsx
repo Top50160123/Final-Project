@@ -4,7 +4,9 @@ import { DataContext } from "../../context/OTContext";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { updateUser } from "../../firebase";
-import { Button, Card, Col, Input, Row } from "antd";
+import { Button, Card, Col, Input, Row, Typography } from "antd";
+
+const { Title, Text } = Typography;
 
 export const ContactUs = () => {
   const { data, setData } = useContext(DataContext);
@@ -102,6 +104,13 @@ export const ContactUs = () => {
 
   return (
     <div>
+      <style>
+        {`
+          body {
+            background-color: rgba(98, 38, 157, 0.7);
+          }
+        `}
+      </style>
       {/* <h1>Send Email</h1>
       <form onSubmit={handleSubmit}>
         <label>Email</label>
@@ -147,58 +156,140 @@ export const ContactUs = () => {
                   marginTop: "100px",
                 }}
               >
-                OTP
+                <Title
+                  level={2}
+                  style={{
+                    color: "var(--primary-500, #0277BD)",
+                    fontSize: "40px",
+                    fontWeight: "600",
+                  }}
+                >
+                  OTP
+                </Title>
               </Col>
               <Col span={24}>
-                For security reasons, we will send a One Time Password (OTP) to
-                your email as shown below.
+                <Text
+                  style={{
+                    fontSize: "20px",
+                    fontWeight: "600",
+                    textAlign: "center",
+                    color: "#197AA4",
+                  }}
+                >
+                  For security reasons, we will send a One Time Password (OTP)
+                  to your email as shown below.
+                </Text>
               </Col>
-              <Col span={12}>
-                <Input
-                  type="text"
-                  id="to"
-                  value={data.email}
-                  onChange={handleInputChange}
-                  disabled
-                />
-              </Col>
-              <Col span={3}>
-              <Button
-              htmlType="submit" disabled={!canSendOTP}
-              >
-              Send OTP {canSendOTP ? "" : `(${countdown}s)`}
-              </Button>
-              </Col>
+              <Row gutter={[8, 16]} justify={"space-between"}>
+                <Col xl={{ span: 13 }} xs={{ span: 24 }}>
+                  <Input
+                    type="text"
+                    id="to"
+                    value={data.email}
+                    onChange={handleInputChange}
+                    placeholder="Your Email"
+                    disabled
+                    style={{
+                      backgroundColor: "#D9D9D9",
+                      width: "423px",
+                      height: "60px",
+                      borderRadius: "20px",
+                      fontSize: "24px",
+                      fontWeight: "600",
+                      lineHeight: "normal",
+                    }}
+                  />
+                </Col>
+
+                <Col xl={{ span: 6 }} xs={{ span: 24, marginTop: 2 }}>
+                  <Button
+                    htmlType="submit"
+                    disabled={!canSendOTP}
+                    style={{
+                      width: "171px",
+                      height: "60px",
+                      backgroundColor: "#D9D9D9",
+                      borderRadius: "20px",
+                      fontSize: "20px",
+                      color: "#8F8F8F",
+                    }}
+                  >
+                    Send OTP {canSendOTP ? "" : `(${countdown}s)`}
+                  </Button>
+                </Col>
+              </Row>
             </Row>
           </form>
           <form onSubmit={validateOTP}>
-          <Row gutter={[8,16]} justify={'center'}
-          style={{
-            marginTop:"10px"
-          }}> 
-          <Col span={24}>
-          Enter your OTP to Sign Up
-          </Col>
-              <Col span={12}>
-              <Input
-              type="text"
-              id="otp"
-              value={otp}
-              onChange={(e) => setOTP(e.target.value)}
-              placeholder="Enter Yout OTP"
-              />
+            <Row
+              gutter={[8, 16]}
+              justify={"center"}
+              style={{
+                marginTop: "10px",
+              }}
+            >
+              <Col span={24}>
+                <Text
+                  style={{
+                    fontSize: "20px",
+                    fontWeight: "600",
+                    textAlign: "center",
+                    color: "#197AA4",
+                  }}
+                >
+                  Enter your OTP to Sign Up
+                </Text>
               </Col>
               <Col span={24}>
-              <Button
-              htmlType="submit"
-              >
-              Confirm
-              </Button>
+                <Input
+                  type="text"
+                  id="otp"
+                  value={otp}
+                  onChange={(e) => setOTP(e.target.value)}
+                  placeholder="Enter Your OTP"
+                  style={{
+                    backgroundColor: "#D9D9D9",
+                    width: "423px",
+                    height: "60px",
+                    borderRadius: "20px",
+                    fontSize: "24px",
+                    fontWeight: "600",
+                    lineHeight: "normal",
+                  }}
+                />
               </Col>
               <Col span={24}>
-              <Link to="/register">Back to the registration page </Link>
+                <Button
+                  htmlType="submit"
+                  style={{
+                    backgroundColor: "#14B538",
+                    color: "white",
+                    width: "305px",
+                    height: "45px",
+                    borderRadius: "20px",
+                    fontSize: "18px",
+                    fontWeight: "600",
+                  }}
+                >
+                  Confirm
+                </Button>
               </Col>
-          </Row>
+              <Col span={24}>
+                <Link
+                  to="/register"
+                  style={{ textDecorationLine: "underline" }}
+                >
+                  <Text
+                    style={{
+                      color: "#197AA4",
+                      fontSize: "20px",
+                    }}
+                  >
+                    Back to the registration page
+                  </Text>
+                </Link>
+              </Col>
+            </Row>
           </form>
         </Card>
       </Row>
