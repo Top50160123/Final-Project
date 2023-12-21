@@ -111,35 +111,7 @@ export const ContactUs = () => {
           }
         `}
       </style>
-      {/* <h1>Send Email</h1>
-      <form onSubmit={handleSubmit}>
-        <label>Email</label>
-        <input
-          type="text"
-          id="to"
-          value={data.email}
-          onChange={handleInputChange}
-          disabled
-        />
-        <br />
-        <button type="submit" disabled={!canSendOTP}>
-          Send OTP {canSendOTP ? "" : `(${countdown}s)`}
-        </button>
-      </form>
-      <br />
-      <form onSubmit={validateOTP}>
-        <label>Enter OTP</label>
-        <input
-          type="text"
-          id="otp"
-          value={otp}
-          onChange={(e) => setOTP(e.target.value)}
-        />
-        <button type="submit">Validate OTP</button>
-      </form>
-      <div>
-        <Link to="/register">Back to the registration page </Link>
-      </div> */}
+
       <Row gutter={[8, 8]} justify={"center"}>
         <Card
           style={{
@@ -167,7 +139,7 @@ export const ContactUs = () => {
                   OTP
                 </Title>
               </Col>
-              <Col span={24}>
+              <Col st span={24}>
                 <Text
                   style={{
                     fontSize: "20px",
