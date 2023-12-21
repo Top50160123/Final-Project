@@ -15,8 +15,14 @@ function Login() {
     e.preventDefault();
     setError("");
     try {
-      await logIn(email, password);
-      navigate("/home");
+      if (email === "admin@admin.com") {
+        await logIn(email, password);
+        alert("admin");
+        navigate("/Documents");
+      } else {
+        await logIn(email, password);
+        navigate("/DocumentDownload");
+      }
     } catch (err) {
       setError(err.message);
       console.log(err);

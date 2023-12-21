@@ -1,20 +1,32 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { handleSubmit } from "./FunctionRegister";
+import { handleSubmit } from "../../functions/register";
 import { DataContext } from "../../context/OTContext";
-import { updateUser } from "../../firebase";
 import { Button, Card, Col, Input, Row } from "antd";
+import { useUserAuth } from "../../context/UserAuthContext";
+import { checkAdmin } from "../../firebase";
 
 function Register() {
   const { data, setData } = useContext(DataContext);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const { signUp } = useUserAuth();
   const navigate = useNavigate();
 
   const handleSend = (e) => {
     e.preventDefault();
-    handleSubmit(e, data.email, password, confirmPassword, setError, navigate);
+    handleSubmit(
+      e,
+      data.email,
+      password,
+      confirmPassword,
+      setError,
+      navigate,
+      signUp,
+      checkAdmin,
+      data
+    );
   };
 
   return (
