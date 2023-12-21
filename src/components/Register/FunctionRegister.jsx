@@ -35,8 +35,8 @@ export const handleSubmit = async (
   }
 
   try {
-    navigate("/login");
-    // navigate("/contactUsOtp");
+    //navigate("/login");
+    navigate("/contactUsOtp");
   } catch (err) {
     setError(err.message);
     console.error(err);
