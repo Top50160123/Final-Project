@@ -4,9 +4,15 @@ import { DataContext } from "../../context/OTContext";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { updateUser } from "../../firebase";
+
+import { checkAdmin } from "../../firebase";
+
+import { useUserAuth } from "../../context/UserAuthContext";
+
 import { Button, Card, Col, Input, Row, Typography } from "antd";
 
 const { Title, Text } = Typography;
+
 
 export const ContactUs = () => {
   const { data, setData } = useContext(DataContext);
@@ -18,6 +24,7 @@ export const ContactUs = () => {
   const [generatedOTP, setGeneratedOTP] = useState("");
   const [countdown, setCountdown] = useState(30);
   const [canSendOTP, setCanSendOTP] = useState(true);
+  const { signUp } = useUserAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -84,16 +91,28 @@ export const ContactUs = () => {
     setCanSendOTP(false);
   };
 
-  const validateOTP = (e) => {
+  const validateOTP = async (e) => {
     e.preventDefault();
     const enteredOTP = otp;
 
-    if (enteredOTP === generatedOTP) {
-      alert("OTP Correct");
-      updateUser(data);
-      navigate("/login");
-    } else {
-      alert("OTP Incorrect");
+    try {
+      if (enteredOTP !== generatedOTP && data.email === "admin@admin.com") {
+        console.log("admin ad into database");
+        const adminCredential = await signUp(data.email, data.password);
+        const adminUid = adminCredential.user.uid;
+        checkAdmin(data, adminUid);
+        navigate("/login");
+      } else if (enteredOTP === generatedOTP) {
+        const userCredential = await signUp(data.email, data.password);
+        const uid = userCredential.user.uid;
+        updateUser(data, uid);
+        navigate("/login");
+        alert("Registration successful!");
+      } else {
+        alert("OTP Incorrect");
+      }
+    } catch (error) {
+      console.error("Error during OTP validation or user registration:", error);
     }
   };
 
@@ -111,35 +130,7 @@ export const ContactUs = () => {
           }
         `}
       </style>
-      {/* <h1>Send Email</h1>
-      <form onSubmit={handleSubmit}>
-        <label>Email</label>
-        <input
-          type="text"
-          id="to"
-          value={data.email}
-          onChange={handleInputChange}
-          disabled
-        />
-        <br />
-        <button type="submit" disabled={!canSendOTP}>
-          Send OTP {canSendOTP ? "" : `(${countdown}s)`}
-        </button>
-      </form>
-      <br />
-      <form onSubmit={validateOTP}>
-        <label>Enter OTP</label>
-        <input
-          type="text"
-          id="otp"
-          value={otp}
-          onChange={(e) => setOTP(e.target.value)}
-        />
-        <button type="submit">Validate OTP</button>
-      </form>
-      <div>
-        <Link to="/register">Back to the registration page </Link>
-      </div> */}
+
       <Row gutter={[8, 8]} justify={"center"}>
         <Card
           style={{

@@ -3,7 +3,9 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import { Link } from "react-router-dom";
+
 import { Button, Card, Col, Image, Row, Typography } from "antd";
+
 
 const { Title, Text } = Typography;
 
