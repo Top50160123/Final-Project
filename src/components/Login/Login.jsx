@@ -94,7 +94,7 @@ function Login() {
                 />
               </Col>
               <Col span={24}>
-                <Button>Login with Cmu Account</Button>
+                <Button href="https://oauth.cmu.ac.th/v1/Authorize.aspx?response_type=code&client_id=dBH4CNbDdruZ8qyD3qqubEYdVz5xvpnqsDe7yrQb&redirect_uri=https://final-project-eta-ruby.vercel.app/callback&scope=misstd.self.basicinfo cmuitaccount.personal_id cmuitaccount.basicinfo&state=xyz">Login with Cmu Account</Button>
               </Col>
               <Col span={24}>
                 <Button htmlType="submit">Login</Button>
