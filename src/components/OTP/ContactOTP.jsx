@@ -158,7 +158,7 @@ export const ContactUs = () => {
                   OTP
                 </Title>
               </Col>
-              <Col span={24}>
+              <Col st span={24}>
                 <Text
                   style={{
                     fontSize: "20px",
