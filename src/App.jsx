@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 
 import { Button, Card, Col, Image, Row, Typography } from "antd";
 
-
 const { Title, Text } = Typography;
 
 function App() {
@@ -71,36 +70,40 @@ function App() {
             </Col>
 
             <Col span={8}>
-              <Button
-                style={{
-                  backgroundColor: "#14B538",
-                  color: "white",
-                  width: "200px",
-                  height: "45px",
-                  border: "20px",
-                  marginTop: "130px",
-                  borderRadius: "50px",
-                  fontSize: "18px",
-                }}
-              >
-                <Link to={"/login"}>Login</Link>
-              </Button>
+              <Link to={"/login"}>
+                <Button
+                  style={{
+                    backgroundColor: "#14B538",
+                    color: "white",
+                    width: "200px",
+                    height: "45px",
+                    border: "20px",
+                    marginTop: "130px",
+                    borderRadius: "50px",
+                    fontSize: "18px",
+                  }}
+                >
+                  Login
+                </Button>
+              </Link>
             </Col>
             <Col span={8}>
-              <Button
-                style={{
-                  backgroundColor: "#F50505",
-                  color: "white",
-                  width: "200px",
-                  height: "45px",
-                  border: "20px",
-                  marginTop: "130px",
-                  borderRadius: "50px",
-                  fontSize: "18px",
-                }}
-              >
-                <Link to={"/register"}>Register</Link>
-              </Button>
+              <Link to={"/register"}>
+                <Button
+                  style={{
+                    backgroundColor: "#F50505",
+                    color: "white",
+                    width: "200px",
+                    height: "45px",
+                    border: "20px",
+                    marginTop: "130px",
+                    borderRadius: "50px",
+                    fontSize: "18px",
+                  }}
+                >
+                  Register
+                </Button>
+              </Link>
             </Col>
           </Row>
         </Card>
