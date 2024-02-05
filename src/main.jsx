@@ -8,7 +8,7 @@ import ProtectedRoute from "./auth/ProtectedRoute.jsx"; // protect
 import { ContactUs } from "./components/OTP/ContactOTP.jsx"; // otp
 import { DataContextProvider } from "./context/OTContext.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
-import AdminPage from "./components/Pages/adminPage.jsx"; // admin page
+import AdminPage from "./components/Pages/AdminPage.jsx"; // admin page
 import CreatePDF from "./components/Pages/CreatePDF.jsx"; // admin create pdf
 import AuditPDF from "./components/Pages/auditPDF.jsx";
 import DocumentDetail from "./components/Pages/EditPage.jsx";
