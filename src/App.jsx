@@ -9,8 +9,6 @@ import { Button, Card, Col, Image, Row, Typography } from "antd";
 const { Title, Text } = Typography;
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <div>
       <style>
