@@ -21,12 +21,6 @@ const CallbackPage = () => {
               grant_type: 'authorization_code',
             };
 
-          
-
-const options = {
-  headers: { 'content-type': 'application/x-www-form-urlencoded' },
-  data: qs.stringify(requestData),
-};
 
 
             // const requestOptions = {
@@ -39,7 +33,9 @@ const options = {
 
             // const response = await fetch('https://oauth.cmu.ac.th/v1/GetToken.aspx', requestOptions);
             // const data = await response.json();
-            const response = await axios.post("https://oauth.cmu.ac.th/v1/GetToken.aspx",options);
+            const response = await axios.post("https://oauth.cmu.ac.th/v1/GetToken.aspx",qs.stringify(requestData),{
+              headers:  { 'content-type': 'application/x-www-form-urlencoded' }
+            });
             console.log(response.data);
             setAccessToken(response.data.access_token);
           } catch (error) {
