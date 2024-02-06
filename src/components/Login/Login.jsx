@@ -100,29 +100,9 @@ function Login() {
                 />
               </Col>
               <Col span={24}>
-<<<<<<< HEAD
                 <Button onClick={() => {
                   window.location = "https://oauth.cmu.ac.th/v1/Authorize.aspx?response_type=code&client_id=dBH4CNbDdruZ8qyD3qqubEYdVz5xvpnqsDe7yrQb&redirect_uri=https://final-project-eta-ruby.vercel.app/callback&scope=cmuitaccount.basicinfo&state=xyz"
                 }}>Login with Cmu Account</Button>
-=======
-                <Button
-                  onClick={() => {
-                    window.location =
-                      "https://oauth.cmu.ac.th/v1/Authorize.aspx?response_type=code&client_id=dBH4CNbDdruZ8qyD3qqubEYdVz5xvpnqsDe7yrQb&redirect_uri=https://final-project-eta-ruby.vercel.app/callback&scope=cmuitaccount.basicinfo&state=xyz";
-                  }}
-                  style={{
-                    backgroundColor: "rgba(98, 38, 157, 0.70)",
-                    color: "white",
-                    width: "623px",
-                    height: "45px",
-                    borderRadius: "20px",
-                    fontSize: "18px",
-                    fontWeight: "600",
-                  }}
-                >
-                  Login with Cmu Account
-                </Button>
->>>>>>> main
               </Col>
               <Col span={24}>
                 <Button
