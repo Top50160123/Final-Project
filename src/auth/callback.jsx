@@ -21,11 +21,11 @@ const CallbackPage = () => {
               grant_type: 'authorization_code',
             };
 
-            const response = await axios.post("https://oauth.cmu.ac.th/v1/GetToken.aspx",requestData,{
-              headers:  { 'content-type': 'application/x-www-form-urlencoded' }
-            });
-            console.log(response.data);
-            setAccessToken(response.data.access_token);
+            // const response = await axios.post("https://oauth.cmu.ac.th/v1/GetToken.aspx",requestData,{
+              // headers:  { 'content-type': 'application/x-www-form-urlencoded' }
+            // });
+            // console.log(response.data);
+            // setAccessToken(response.data.access_token);
           } catch (error) {
             console.error('Error:', error.message);
           }
