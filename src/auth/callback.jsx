@@ -21,19 +21,7 @@ const CallbackPage = () => {
               grant_type: 'authorization_code',
             };
 
-
-
-            // const requestOptions = {
-            //   method: 'POST',
-            //   headers: {
-            //     'Content-Type': 'application/x-www-form-urlencoded'
-            //   },
-            //   body: new URLSearchParams(requestData)
-            // };
-
-            // const response = await fetch('https://oauth.cmu.ac.th/v1/GetToken.aspx', requestOptions);
-            // const data = await response.json();
-            const response = await axios.post("https://oauth.cmu.ac.th/v1/GetToken.aspx",qs.stringify(requestData),{
+            const response = await axios.post("https://oauth.cmu.ac.th/v1/GetToken.aspx",requestData,{
               headers:  { 'content-type': 'application/x-www-form-urlencoded' }
             });
             console.log(response.data);
