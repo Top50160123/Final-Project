@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';  import qs from 'qs';
 import { useLocation } from 'react-router-dom';
 
 const CallbackPage = () => {
@@ -21,17 +21,29 @@ const CallbackPage = () => {
               grant_type: 'authorization_code',
             };
 
-            const requestOptions = {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-              },
-              body: new URLSearchParams(requestData)
-            };
+          
 
-            const response = await fetch('https://oauth.cmu.ac.th/v1/GetToken.aspx', requestOptions);
-            const data = await response.json();
-            setAccessToken(data.access_token);
+const options = {
+  method: 'POST',
+  headers: { 'content-type': 'application/x-www-form-urlencoded' },
+  data: qs.stringify(requestData),
+  url,
+};
+
+
+            // const requestOptions = {
+            //   method: 'POST',
+            //   headers: {
+            //     'Content-Type': 'application/x-www-form-urlencoded'
+            //   },
+            //   body: new URLSearchParams(requestData)
+            // };
+
+            // const response = await fetch('https://oauth.cmu.ac.th/v1/GetToken.aspx', requestOptions);
+            // const data = await response.json();
+            const response = await axios(options);
+            console.log(response.data);
+            setAccessToken(response.data.access_token);
           } catch (error) {
             console.error('Error:', error.message);
           }
