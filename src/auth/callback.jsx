@@ -25,8 +25,8 @@ const CallbackPage = () => {
             }
       
             const result = await response.json();
-            setAccessToken(result.result);              
-            console.log("result :", result.result);
+            setAccessToken(result.accessToken);              
+            console.log("result :", result);
           } catch (error) {
             console.error("Wrong to Sign", error.message || "Wrong to Sign");
           }
