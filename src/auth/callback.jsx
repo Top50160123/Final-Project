@@ -24,10 +24,8 @@ const CallbackPage = () => {
           
 
 const options = {
-  method: 'POST',
   headers: { 'content-type': 'application/x-www-form-urlencoded' },
   data: qs.stringify(requestData),
-  url,
 };
 
 
@@ -41,7 +39,7 @@ const options = {
 
             // const response = await fetch('https://oauth.cmu.ac.th/v1/GetToken.aspx', requestOptions);
             // const data = await response.json();
-            const response = await axios(options);
+            const response = await axios.post("https://oauth.cmu.ac.th/v1/GetToken.aspx",options);
             console.log(response.data);
             setAccessToken(response.data.access_token);
           } catch (error) {
