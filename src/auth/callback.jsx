@@ -22,7 +22,7 @@ const CallbackPage = () => {
             // };
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-
+            myHeaders.append("mode", 'no-cors');
 var urlencoded = new URLSearchParams();
 urlencoded.append("code", codeFromURL);
 urlencoded.append("redirect_uri", "https://final-project-eta-ruby.vercel.app/callback");
