@@ -20,7 +20,7 @@ const CallbackPage = () => {
             //   client_secret: 'tYEyZQnjDzQ11j8JQDjdTQh0deHEkAfNKnaqaArf',
             //   grant_type: 'authorization_code',
             // };
-
+            var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
 var urlencoded = new URLSearchParams();
