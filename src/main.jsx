@@ -15,6 +15,7 @@ import DocumentDetail from "./components/Pages/EditPage.jsx";
 import "./index.css";
 import { UserAuthContextProvider } from "./context/UserAuthContext.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Callback from "./auth/callback.jsx";
 
 const router = createBrowserRouter([
   {
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
   {
     path: "/Detail",
     element: <DocumentDetail />,
+  },
+  {
+    path: "/callback",
+    element:<Callback />
   },
 ]);
 
