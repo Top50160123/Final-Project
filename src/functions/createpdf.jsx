@@ -1,6 +1,6 @@
 const generatePDF = async (userInput, fileName) => {
   try {
-    const response = await fetch(`${process.env.REACT_APP_API_BACK}/api/generate-pdf`, {
+    const response = await fetch(`https://server-node-tau.vercel.app/api/generate-pdf`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
