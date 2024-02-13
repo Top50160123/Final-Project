@@ -17,6 +17,7 @@ function UserPage() {
   const [latestUrl, setLatestUrl] = useState("");
   const [fileName, setFileName] = useState("");
   const [userData, setUserData] = useState("");
+  const [userDataEmail ,setUserDataEmail] = useState("");
 
   const handleLogout = async () => {
     try {
@@ -71,8 +72,8 @@ function UserPage() {
       try {
         const data = await getUserCMU();
         console.log("data", data);
+        setUserDataEmail(data.email)
         setUserData(data);
-        await saveUserCMU(data);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -93,7 +94,6 @@ function UserPage() {
       console.warn("Cannot generate PDF file");
     }
   };
-  console.log("userData?.email -1:",userData.email)
 
 
   const handleSignDocument = async () => {
@@ -103,9 +103,9 @@ function UserPage() {
         const { fileName, content, url } = document || {};
         const CMUUid = uuidv4();
         if(userData){
-          console.log("userData?.email -2:",userData?.email)
+          console.log("userData?.email -2:",userDataEmail)
           await SignDoc(
-            userData?.email,
+            userDataEmail,
             CMUUid,
             selectedType,
             fileName,
