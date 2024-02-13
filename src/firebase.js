@@ -48,7 +48,8 @@ async function checkAdmin(data, uid) {
 
 async function userCMU(data) {
   try {
-    const userDataWithUID = { ...data, uid: data.uid }; 
+    const oldUID = data.uid; // เก็บค่า uid เดิม
+    const userDataWithUID = { ...data, uid: oldUID }; // ใช้ uid เดิมในการสร้าง userDataWithUID
     await addDoc(collection(db, "usersCMU"), userDataWithUID);
   } catch (error) {
     console.error("Error adding user data to Firestore:", error);
@@ -170,9 +171,8 @@ async function SignDoc(email, name, uid, type, fileName, content, Url) {
     url: Url,
     timestamp: serverTimestamp(),
   };
-  console.log("signDoc",signDoc)
-  // const docRef = await addDoc(collection(db, "sign"), signDoc);
-  // const signedDocument = await getDoc(docRef);
+  const docRef = await addDoc(collection(db, "sign"), signDoc);
+  const signedDocument = await getDoc(docRef);
   return signedDocument.data();
 }
 
