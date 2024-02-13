@@ -67,13 +67,16 @@ const CallbackPage = () => {
   }, [accessToken]);
 
   useEffect(() => {
-    try{
+    try {
       if (userCmu) {
         // navigate("/DocumentDownload");
-        console.log("Navigate Done",userCmu);
+        console.log("Navigate Done", userCmu.firstname_TH);
+        console.log("Navigate Done", userCmu.lastname_EN);
+        console.log("Navigate Done", userCmu.student_id);
+
       }
-    }catch(error){
-      console.error("error")
+    } catch (error) {
+      console.error("error");
     }
     // await logIn(email, password)
   }, [navigate, userCmu]);
