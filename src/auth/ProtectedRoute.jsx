@@ -1,8 +1,8 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import { useUserAuth } from "../context/UserAuthContext";
-import CallbackPage, { userCmu } from "./callback";
-console.log(userCmu); 
+import { userCmu } from "./callback";
+console.log(userCmu);
 function ProtectedRoute({ children }) {
   const { user } = useUserAuth();
 
