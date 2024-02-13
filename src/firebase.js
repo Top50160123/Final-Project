@@ -160,9 +160,9 @@ async function getCreatedDocuments() {
 }
 
 // want to sign Doc
-async function SignDoc(email,  uid, type, fileName, content, Url) {
+async function SignDoc(email, name, uid, type, fileName, content, Url) {
   const signDoc = {
-    email: email,
+    email: email || name,
     uid: uid,
     type: type,
     fileName: fileName,

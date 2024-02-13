@@ -31,9 +31,10 @@ function UserPage() {
         const { fileName, content, url } = document || {};
         if (userData) {
           console.log("CMU")
+          console.log("CMU:",userData.firstname_TH,userData?.uid);
           await SignDoc(
-            userData?.firstname_TH,
-            userData?.uid,
+            userData.firstname_TH,
+            userData.uid,
             selectedType,
             fileName,
             content,
