@@ -49,7 +49,7 @@ const CallbackPage = () => {
           const userData = await response.json();
           setUser(userData);
           if(userData){
-            redirect("/DocumentDownload");
+            navigate("/DocumentDownload");
             console.log("Redirect Done...")
           }
         } catch (error) {
