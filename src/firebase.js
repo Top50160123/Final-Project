@@ -182,9 +182,10 @@ async function SignDoc(email, uid, type, fileName, content, Url) {
     url: Url,
     timestamp: serverTimestamp(),
   };
-  const docRef = await addDoc(collection(db, "sign"), signDoc);
-  const signedDocument = await getDoc(docRef);
-  return signedDocument.data();
+  console.log("signDoc",signDoc)
+  // const docRef = await addDoc(collection(db, "sign"), signDoc);
+  // const signedDocument = await getDoc(docRef);
+  // return signedDocument.data();
 }
 
 async function getSignedDocument() {
