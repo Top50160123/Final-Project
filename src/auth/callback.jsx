@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 const CallbackPage = () => {
   const location = useLocation();
@@ -56,7 +57,10 @@ const CallbackPage = () => {
             }
           );
           const userData = await response.json();
-          setUserCmu(userData);
+          // Generate a unique identifier
+          const uid = uuidv4();
+          // Add the uid to the user data
+          setUserCmu({ ...userData, uid });
         } catch (error) {
           console.error("Error fetching user data:", error.message);
         }
