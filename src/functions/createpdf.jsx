@@ -1,6 +1,6 @@
 const generatePDF = async (userInput, fileName) => {
   try {
-    const response = await fetch("http://localhost:5003/api/generate-pdf", {
+    const response = await fetch(`${process.env.REACT_APP_API_BACK}/api/generate-pdf`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
