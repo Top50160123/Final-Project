@@ -48,8 +48,9 @@ const CallbackPage = () => {
           });
           const userData = await response.json();
           setUser(userData);
-          if(user){
+          if(userData){
             redirect("/DocumentDownload");
+            console.log("Redirect Done...")
           }
         } catch (error) {
           console.error('Error fetching user data:', error.message);
