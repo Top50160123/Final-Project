@@ -34,6 +34,7 @@ function UserPage() {
         const { fileName, content, url } = document || {};
         const CMUUid = uuidv4();
         if(userData){
+          console.log("userData?.email:",userData?.email)
           await SignDoc(
             userData?.email,
             CMUUid,
