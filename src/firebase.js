@@ -52,12 +52,15 @@ async function userCMU(data) {
 }
 
 async function saveUserCMU(data) {
-  const userQuery = query(collection(db, "usersCMU"), where("email", "==", data.email));
+  const userQuery = query(
+    collection(db, "usersCMU"),
+    where("email", "==", data.email)
+  );
   const querySnapshot = await getDocs(userQuery);
 
   if (querySnapshot.empty) {
     const userDataWithUID = data;
-    await addDoc(collection(db, "usersCMU"), userDataWithUID);
+    await addDoc(collection(db, "CMULogin"), userDataWithUID);
     console.log("User data saved successfully!");
   } else {
     console.log("User data already exists.");
@@ -265,6 +268,7 @@ async function deleteUrl(uid) {
 export {
   updateUser,
   getUserCMU,
+  saveUserCMU,
   checkAdmin,
   userCMU,
   createPdf,

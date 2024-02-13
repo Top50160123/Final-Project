@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
-import { userCMU } from "../firebase";
+// import { v4 as uuidv4 } from "uuid";
+import { userCMU, saveUserCMU } from "../firebase";
 
 const CallbackPage = () => {
   const location = useLocation();
@@ -80,6 +80,7 @@ const CallbackPage = () => {
             email: userCmu.cmuitaccount,
           };
           await userCMU(userCMUObject);
+          await saveUserCMU(userCMUObject);
           navigate("/DocumentDownload");
         }
       } catch (error) {
