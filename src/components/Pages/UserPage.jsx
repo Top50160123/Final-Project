@@ -117,20 +117,15 @@ function UserPage() {
       <h2>Welcome</h2>
       {userData ? (
         <>
-          {userData.map((user) => (
-            <div key={user.id}>
-              {user.firstname_TH} {user.lastname_TH} : {user.student_id}
+          {userData.map((s) => (
+            <div key={s.id}>
+              {" "}
+              {s.name} {s.lastName} : {s.studentId}
             </div>
           ))}
         </>
       ) : (
-        <>
-          {user ? (
-            <>
-              <p>{user?.email} </p>
-            </>
-          ) : null}
-        </>
+        <>{user?.email}</>
       )}
 
       <button onClick={handleLogout} variant="danger">
