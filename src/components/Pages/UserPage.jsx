@@ -116,7 +116,7 @@ function UserPage() {
         <>
           {userData.map((user) => (
             <div key={user.id}>
-              {user.firstname_TH} {user.lastname_TH} - {user.student_id}
+              {user.firstname_TH} {user.lastname_TH} : {user.student_id}
             </div>
           ))}
         </>
