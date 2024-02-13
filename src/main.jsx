@@ -45,9 +45,9 @@ const router = createBrowserRouter([
   {
     path: "/Documents",
     element: (
-      <ProtectedRoute>
+      // <ProtectedRoute>
         <AdminPage />
-      </ProtectedRoute>
+      // </ProtectedRoute>
     ),
   },
   {

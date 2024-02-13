@@ -120,11 +120,12 @@ function UserPage() {
             </div>
           ))}
         </>
-      ) : (
+      ) : null}
+      {user ? (
         <>
           <p>{user?.email} </p>
         </>
-      )}
+      ) : null}
 
       <button onClick={handleLogout} variant="danger">
         Logout
