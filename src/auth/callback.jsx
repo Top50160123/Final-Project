@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';  import qs from 'qs';
-import { useLocation } from 'react-router-dom';
+import { redirect, useLocation } from 'react-router-dom';
 
 const CallbackPage = () => {
   const location = useLocation();
-  const [userData, setUserData] = useState(null);
+  const [user, setUser] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
@@ -47,7 +47,10 @@ const CallbackPage = () => {
             }
           });
           const userData = await response.json();
-          setUserData(userData);
+          if(userData){
+            redirect("/DocumentDownload");
+          }
+          setUser(userData);
         } catch (error) {
           console.error('Error fetching user data:', error.message);
         }
@@ -56,7 +59,7 @@ const CallbackPage = () => {
 
     fetchUserData();
   }, [accessToken]);
-
+  
   console.log("userData:",userData)
 
   return null;
