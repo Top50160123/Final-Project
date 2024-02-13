@@ -56,12 +56,15 @@ async function userCMU(data) {
   }
 }
 
-async function getUserCMU() {
+async function getUserCMU(newUID) {
   try {
     const querySnapshot = await getDocs(collection(db, "usersCMU"));
     const userData = [];
     querySnapshot.forEach((doc) => {
-      userData.push({ id: doc.id, ...doc.data() });
+      const uid = doc.data().uid;
+      if (uid !== newUID) {
+        userData.push({ id: doc.id, ...doc.data() });
+      }
     });
     return userData;
   } catch (error) {
@@ -69,6 +72,7 @@ async function getUserCMU() {
     return [];
   }
 }
+
 
 // Admin create PDF
 async function addAction(admin, uid, action, type, fileName, content, Url) {
