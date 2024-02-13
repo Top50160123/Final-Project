@@ -30,8 +30,8 @@ function UserPage() {
         const document = pdfData.find((doc) => doc.type === selectedType);
         const { fileName, content, url } = document || {};
         await SignDoc(
-          user?.email,
-          user?.uid,
+          user?.email || userData?.firstname_TH,
+          user?.uid || userData?.uid,
           selectedType,
           fileName,
           content,
@@ -120,12 +120,15 @@ function UserPage() {
             </div>
           ))}
         </>
-      ) : null}
-      {user ? (
+      ) : (
         <>
-          <p>{user?.email} </p>
+          {user ? (
+            <>
+              <p>{user?.email} </p>
+            </>
+          ) : null}
         </>
-      ) : null}
+      )}
 
       <button onClick={handleLogout} variant="danger">
         Logout
