@@ -30,8 +30,8 @@ function UserPage() {
         const document = pdfData.find((doc) => doc.type === selectedType);
         const { fileName, content, url } = document || {};
         await SignDoc(
-          user?.email || userData?.firstname_TH,
-          user?.uid || userData?.uid,
+          userData?.firstname_TH || user?.email,
+          userData?.uid || user?.uid,
           selectedType,
           fileName,
           content,
@@ -51,8 +51,6 @@ function UserPage() {
           const documentUrl = await getUrl(user.uid);
           setLatestFile(documentUrl.FileName);
           setLatestUrl(documentUrl.latestUrl);
-          console.log("Latest URL:", documentUrl.latestUrl);
-          console.log("File Name:", documentUrl.FileName);
         }
       } catch (error) {
         console.error("Error fetching PDF data:", error);
