@@ -29,14 +29,27 @@ function UserPage() {
       try {
         const document = pdfData.find((doc) => doc.type === selectedType);
         const { fileName, content, url } = document || {};
-        await SignDoc(
-          userData?.firstname_TH || user?.email,
-          userData?.uid || user?.uid,
-          selectedType,
-          fileName,
-          content,
-          url
-        );
+        if (userData) {
+          console.log("CMU")
+          await SignDoc(
+            userData?.firstname_TH,
+            userData?.uid,
+            selectedType,
+            fileName,
+            content,
+            url
+          );
+        } else {
+          console.log("Email")
+          await SignDoc(
+            user?.email,
+            user?.uid,
+            selectedType,
+            fileName,
+            content,
+            url
+          );
+        }
         console.log("Document signed successfully!");
       } catch (error) {
         console.error("Error signing document:", error);
