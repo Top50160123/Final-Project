@@ -9,7 +9,7 @@ const CallbackPage = () => {
   const [userCmu, setUserCmu] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
   const navigate = useNavigate();
-  const [userData, setUserData] = useState("");
+    const [userData, setUserData] = useState("")
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,18 +75,15 @@ const CallbackPage = () => {
     const updateUserCmu = async () => {
       try {
         if (userCmu) {
-          if ((userData.user.firstname_TH = userCmu.firstname_TH)) {
-            navigate("/DocumentDownload");
-          } else {
-            const userCMUObject = {
-              firstname_TH: userCmu.firstname_TH,
-              lastname_TH: userCmu.lastname_TH,
-              student_id: userCmu.student_id,
-              uid: userCmu.uid,
-            };
-            await userCMU(userCMUObject);
-            navigate("/DocumentDownload");
-          }
+          console.log("userData:",userData)
+          const userCMUObject = {
+            firstname_TH: userCmu.firstname_TH,
+            lastname_TH: userCmu.lastname_TH,
+            student_id: userCmu.student_id,
+            uid: userCmu.uid,
+          };
+          await userCMU(userCMUObject);
+          navigate("/DocumentDownload");
         }
       } catch (error) {
         console.error("Error updating user data:", error);
