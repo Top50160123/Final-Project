@@ -114,7 +114,7 @@ function UserPage() {
   return (
     <div>
       <h2>Welcome</h2>
-      {usersCMU ? (
+      {userData ? (
         <>
           {userData.map((user) => (
             <li key={user.id}>
