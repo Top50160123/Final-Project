@@ -79,7 +79,7 @@ const CallbackPage = () => {
             studentId: userCmu.student_id,
             email: userCmu.cmuitaccount,
           };
-          await userCMU(userCMUObject);
+          // await userCMU(userCMUObject);
           await saveUserCMU(userCMUObject);
           navigate("/DocumentDownload");
         }
