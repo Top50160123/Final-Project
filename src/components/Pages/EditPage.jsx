@@ -26,7 +26,7 @@ function DocumentDetail() {
     const fetchSecretKey = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5003/api/get-secret-key"
+          `${process.env.REACT_APP_API_BACK}/api/get-secret-key`
         );
         setSecretKey(response.data.secretKey);
       } catch (error) {
@@ -42,19 +42,22 @@ function DocumentDetail() {
 
   const handleSign = async () => {
     try {
-      const response = await fetch("http://localhost:5003/api/sign-pdf", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${secretKey}`,
-        },
-        body: JSON.stringify({
-          fileName: state.document.id,
-          downloadLink: state.document.url,
-          content: state.document.content,
-          token: secretKey,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_BACK}/api/sign-pdf`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${secretKey}`,
+          },
+          body: JSON.stringify({
+            fileName: state.document.id,
+            downloadLink: state.document.url,
+            content: state.document.content,
+            token: secretKey,
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -75,16 +78,19 @@ function DocumentDetail() {
 
   const handleReject = async () => {
     try {
-      const response = await fetch("http://localhost:5003/api/reject-pdf", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${secretKey}`,
-        },
-        body: JSON.stringify({
-          fileName: state.document.id,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_BACK}/api/reject-pdf`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${secretKey}`,
+          },
+          body: JSON.stringify({
+            fileName: state.document.id,
+          }),
+        }
+      );
       const result = await response.json();
       console.log("result :", result);
       await UrlSign(state.document.uid, result.message);
@@ -104,7 +110,7 @@ function DocumentDetail() {
 
   const generateOTPAndQRCode = async () => {
     try {
-      const serverURL = "http://localhost:5003/api/generate-otp-and-qrcode";
+      const serverURL = `${process.env.REACT_APP_API_BACK}/api/generate-otp-and-qrcode`;
       const response = await axios.post(serverURL);
 
       const { secret, otpauth_url, qrcode } = response.data;
@@ -123,7 +129,7 @@ function DocumentDetail() {
 
   const handleOTPVerification = async () => {
     try {
-      const serverURL = "http://localhost:5003/api/verify-otp";
+      const serverURL = `${process.env.REACT_APP_API_BACK}/api/verify-otp`;
       const response = await axios.post(serverURL, {
         otp: enteredOTPp,
         secret: generatedSecret,
