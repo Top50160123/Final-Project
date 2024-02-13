@@ -46,6 +46,15 @@ async function checkAdmin(data, uid) {
   await addDoc(collection(db, "admin"), adminDataWithUID);
 }
 
+async function userCMU(data) {
+  try {
+    const userDataWithUID = { ...data, uid: data.uid }; 
+    await addDoc(collection(db, "usersCMU"), userDataWithUID);
+  } catch (error) {
+    console.error("Error adding user data to Firestore:", error);
+  }
+}
+
 // Admin create PDF
 async function addAction(admin, uid, action, type, fileName, content, Url) {
   const pdfData = {
@@ -230,6 +239,7 @@ async function deleteUrl(uid) {
 export {
   updateUser,
   checkAdmin,
+  userCMU,
   createPdf,
   getDocuments,
   addAction,

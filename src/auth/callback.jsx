@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import { userCMU } from "../firebase";
 
 const CallbackPage = () => {
   const location = useLocation();
@@ -71,19 +72,23 @@ const CallbackPage = () => {
   }, [accessToken]);
 
   useEffect(() => {
-    try {
-      if (userCmu) {
-        // navigate("/DocumentDownload");
-        console.log("Navigate Done", userCmu.firstname_TH);
-        console.log("Navigate Done", userCmu.lastname_EN);
-        console.log("Navigate Done", userCmu.student_id);
-        console.log("Navigate Done", userCmu.uid);
-
+    const updateUserCmu = async () => {
+      try {
+        if (userCmu) {
+          const userCMUObject = {
+            firstname_TH: userCmu.firstname_TH,
+            lastname_EN: userCmu.lastname_EN,
+            student_id: userCmu.student_id,
+            uid: userCmu.uid,
+          };
+          await userCMU(userCMUObject);
+        }
+      } catch (error) {
+        console.error("Error updating user data:", error);
       }
-    } catch (error) {
-      console.error("error");
-    }
-    // await logIn(email, password)
+    };
+
+    updateUserCmu();
   }, [navigate, userCmu]);
 
   return null;
