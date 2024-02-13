@@ -47,12 +47,20 @@ async function checkAdmin(data, uid) {
 }
 
 async function userCMU(data) {
-  try {
-    const oldUID = data.uid; 
-    const userDataWithUID = { ...data, uid: oldUID }; 
+  const userDataWithUID = data;
+  await addDoc(collection(db, "usersCMU"), userDataWithUID);
+}
+
+async function saveUserCMU(data) {
+  const userQuery = query(collection(db, "usersCMU"), where("email", "==", data.email));
+  const querySnapshot = await getDocs(userQuery);
+
+  if (querySnapshot.empty) {
+    const userDataWithUID = data;
     await addDoc(collection(db, "usersCMU"), userDataWithUID);
-  } catch (error) {
-    console.error("Error adding user data to Firestore:", error);
+    console.log("User data saved successfully!");
+  } else {
+    console.log("User data already exists.");
   }
 }
 
@@ -72,7 +80,6 @@ async function getUserCMU(newUID) {
     return [];
   }
 }
-
 
 // Admin create PDF
 async function addAction(admin, uid, action, type, fileName, content, Url) {
@@ -167,7 +174,7 @@ async function getCreatedDocuments() {
 // want to sign Doc
 async function SignDoc(email, uid, type, fileName, content, Url) {
   const signDoc = {
-    email: email ,
+    email: email,
     uid: uid,
     type: type,
     fileName: fileName,

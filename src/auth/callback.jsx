@@ -73,12 +73,11 @@ const CallbackPage = () => {
     const updateUserCmu = async () => {
       try {
         if (userCmu) {
-          console.log(userCmu);
           const userCMUObject = {
-            firstname_TH: userCmu.firstname_TH,
-            lastname_TH: userCmu.lastname_TH,
-            student_id: userCmu.student_id,
-            // email: userCmu.
+            name: userCmu.firstname_TH,
+            lastName: userCmu.lastname_TH,
+            studentId: userCmu.student_id,
+            email: userCmu.cmuitaccount,
           };
           await userCMU(userCMUObject);
           navigate("/DocumentDownload");
