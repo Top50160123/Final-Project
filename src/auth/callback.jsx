@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import qs from "qs";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const CallbackPage = () => {
@@ -77,4 +76,4 @@ const CallbackPage = () => {
   return null;
 };
 
-export default CallbackPage;
+export { CallbackPage as default, userCmu };
