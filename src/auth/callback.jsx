@@ -9,7 +9,7 @@ const CallbackPage = () => {
   const [userCmu, setUserCmu] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
   const navigate = useNavigate();
-    const [userData, setUserData] = useState("")
+  const [userData, setUserData] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,7 +75,7 @@ const CallbackPage = () => {
     const updateUserCmu = async () => {
       try {
         if (userCmu) {
-          console.log("userData:",userData)
+          console.log("userData:", userData);
           const userCMUObject = {
             firstname_TH: userCmu.firstname_TH,
             lastname_TH: userCmu.lastname_TH,
