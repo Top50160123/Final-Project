@@ -60,7 +60,7 @@ const CallbackPage = () => {
     fetchUserData();
   }, [accessToken]);
   
-  console.log("userData:",userData)
+  console.log("userData:", user)
 
   return null;
 }
