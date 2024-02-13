@@ -34,6 +34,7 @@ const CallbackPage = () => {
 
             const result = await response.json();
             setAccessToken(result.access_token);
+            console.log("result :", result.access_token);
           } catch (error) {
             console.error("Wrong to Sign", error.message || "Wrong to Sign");
           }
@@ -43,6 +44,7 @@ const CallbackPage = () => {
 
     fetchData();
   }, [location]);
+  console.log("Token หน้าบ้าน:", accessToken);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -73,22 +75,15 @@ const CallbackPage = () => {
     const updateUserCmu = async () => {
       try {
         if (userCmu) {
-          if (userData) {
-            if (userData.firstname_TH === userCmu.firstname_TH) {
-              navigate("/DocumentDownload");
-              console.log("1");
-            }
-          } else {
-            console.log("2");
-            const userCMUObject = {
-              firstname_TH: userCmu.firstname_TH,
-              lastname_TH: userCmu.lastname_TH,
-              student_id: userCmu.student_id,
-              uid: userCmu.uid,
-            };
-            await userCMU(userCMUObject);
-            navigate("/DocumentDownload");
-          }
+          console.log("userData:", userData);
+          const userCMUObject = {
+            firstname_TH: userCmu.firstname_TH,
+            lastname_TH: userCmu.lastname_TH,
+            student_id: userCmu.student_id,
+            uid: userCmu.uid,
+          };
+          await userCMU(userCMUObject);
+          navigate("/DocumentDownload");
         }
       } catch (error) {
         console.error("Error updating user data:", error);
@@ -96,7 +91,7 @@ const CallbackPage = () => {
     };
 
     updateUserCmu();
-  }, [navigate, userCmu, userData]);
+  }, [navigate, userCmu]);
 
   useEffect(() => {
     const fetchData = async () => {
