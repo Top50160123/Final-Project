@@ -76,4 +76,4 @@ const CallbackPage = () => {
   return null;
 };
 
-export { CallbackPage as default, userCmu };
+export default CallbackPage;
