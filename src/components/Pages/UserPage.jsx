@@ -13,7 +13,7 @@ function UserPage() {
   const [latestFile, setLatestFile] = useState("");
   const [latestUrl, setLatestUrl] = useState("");
   const [fileName, setFileName] = useState("");
-  const [usersCMU, setUsersCMU] = useState("");
+  const [userData, setUserData] = useState("");
 
   const handleLogout = async () => {
     try {
@@ -86,16 +86,17 @@ function UserPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getUserData();
-        setUsersCMU(data);
+        const data = await getUserCMU();
+        setUserData(data);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     };
+
     fetchData();
   }, []);
 
-  console.log("usersCMU:", usersCMU);
+  console.log("usersCMU:", userData);
 
   const exportGeneratedPDF = () => {
     if (latestUrl) {
