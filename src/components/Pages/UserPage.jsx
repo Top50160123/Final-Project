@@ -69,6 +69,7 @@ function UserPage() {
     const fetchData = async () => {
       try {
         const data = await getUserCMU();
+        console.log(data)
         setUserDataEmail(data.email)
         setUserData(data);
       } catch (error) {
