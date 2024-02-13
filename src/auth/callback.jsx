@@ -75,8 +75,10 @@ const CallbackPage = () => {
     const updateUserCmu = async () => {
       try {
         if (userCmu) {
-          if ((userData.firstname_TH = userCmu.firstname_TH)) {
-            navigate("/DocumentDownload");
+          if (userData) {
+            if ((userData.firstname_TH = userCmu.firstname_TH)) {
+              navigate("/DocumentDownload");
+            }
           } else {
             const userCMUObject = {
               firstname_TH: userCmu.firstname_TH,
