@@ -59,7 +59,7 @@ const CallbackPage = () => {
           );
           const userData = await response.json();
           // const uid = uuidv4();
-          setUserCmu( ...userData);
+          setUserCmu(userData);
         } catch (error) {
           console.error("Error fetching user data:", error.message);
         }
@@ -73,6 +73,7 @@ const CallbackPage = () => {
     const updateUserCmu = async () => {
       try {
         if (userCmu) {
+          console.log(userCmu);
           const userCMUObject = {
             firstname_TH: userCmu.firstname_TH,
             lastname_TH: userCmu.lastname_TH,
