@@ -27,40 +27,6 @@ function UserPage() {
     }
   };
 
-  const handleSignDocument = async () => {
-    if (selectedType) {
-      try {
-        const document = pdfData.find((doc) => doc.type === selectedType);
-        const { fileName, content, url } = document || {};
-        const CMUUid = uuidv4();
-        if(userData){
-          console.log("userData?.email:",userData?.email)
-          await SignDoc(
-            userData?.email,
-            CMUUid,
-            selectedType,
-            fileName,
-            content,
-            url
-          );
-        } else {
-          console.log("Email");
-          await SignDoc(
-            user?.email,
-            user?.uid,
-            selectedType,
-            fileName,
-            content,
-            url
-          );
-        }
-        console.log("Document signed successfully!");
-      } catch (error) {
-        console.error("Error signing document:", error);
-      }
-    }
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -125,6 +91,42 @@ function UserPage() {
       document.body.removeChild(link);
     } else {
       console.warn("Cannot generate PDF file");
+    }
+  };
+  console.log("userData?.email -1:",userData.email)
+
+
+  const handleSignDocument = async () => {
+    if (selectedType) {
+      try {
+        const document = pdfData.find((doc) => doc.type === selectedType);
+        const { fileName, content, url } = document || {};
+        const CMUUid = uuidv4();
+        if(userData){
+          console.log("userData?.email -2:",userData?.email)
+          await SignDoc(
+            userData?.email,
+            CMUUid,
+            selectedType,
+            fileName,
+            content,
+            url
+          );
+        } else {
+          console.log("Email");
+          await SignDoc(
+            user?.email,
+            user?.uid,
+            selectedType,
+            fileName,
+            content,
+            url
+          );
+        }
+        console.log("Document signed successfully!");
+      } catch (error) {
+        console.error("Error signing document:", error);
+      }
     }
   };
 
