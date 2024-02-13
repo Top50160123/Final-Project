@@ -96,8 +96,6 @@ function UserPage() {
     fetchData();
   }, []);
 
-  console.log("usersCMU:", userData);
-
   const exportGeneratedPDF = () => {
     if (latestUrl) {
       const link = document.createElement("a");
@@ -117,9 +115,9 @@ function UserPage() {
       {userData ? (
         <>
           {userData.map((user) => (
-            <li key={user.id}>
-              {user.firstname_TH} {user.lastname_EN} - {user.student_id}
-            </li>
+            <div key={user.id}>
+              {user.firstname_TH} {user.lastname_TH} - {user.student_id}
+            </div>
           ))}
         </>
       ) : (

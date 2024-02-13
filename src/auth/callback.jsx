@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { userCMU } from "../firebase";
+import { getUserCMU } from "../firebase";
 
 const CallbackPage = () => {
   const location = useLocation();
   const [userCmu, setUserCmu] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
   const navigate = useNavigate();
+  const [userData, setUserData] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,9 +60,7 @@ const CallbackPage = () => {
             }
           );
           const userData = await response.json();
-          // Generate a unique identifier
           const uid = uuidv4();
-          // Add the uid to the user data
           setUserCmu({ ...userData, uid });
         } catch (error) {
           console.error("Error fetching user data:", error.message);
@@ -75,14 +75,18 @@ const CallbackPage = () => {
     const updateUserCmu = async () => {
       try {
         if (userCmu) {
-          const userCMUObject = {
-            firstname_TH: userCmu.firstname_TH,
-            lastname_EN: userCmu.lastname_EN,
-            student_id: userCmu.student_id,
-            uid: userCmu.uid,
-          };
-          await userCMU(userCMUObject);
-          navigate("/DocumentDownload");
+          if ((userData.user.firstname_TH = userCmu.firstname_TH)) {
+            navigate("/DocumentDownload");
+          } else {
+            const userCMUObject = {
+              firstname_TH: userCmu.firstname_TH,
+              lastname_TH: userCmu.lastname_TH,
+              student_id: userCmu.student_id,
+              uid: userCmu.uid,
+            };
+            await userCMU(userCMUObject);
+            navigate("/DocumentDownload");
+          }
         }
       } catch (error) {
         console.error("Error updating user data:", error);
@@ -91,6 +95,19 @@ const CallbackPage = () => {
 
     updateUserCmu();
   }, [navigate, userCmu]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getUserCMU();
+        setUserData(data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return null;
 };
