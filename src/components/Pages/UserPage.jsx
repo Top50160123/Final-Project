@@ -92,6 +92,7 @@ function UserPage() {
         console.error("Error fetching user data:", error);
       }
     };
+    fetchData();
   }, []);
 
   console.log("usersCMU:", usersCMU);
