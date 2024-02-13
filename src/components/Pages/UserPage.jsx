@@ -96,6 +96,8 @@ function UserPage() {
     fetchData();
   }, []);
 
+  console.log("userData", userData);
+
   const exportGeneratedPDF = () => {
     if (latestUrl) {
       const link = document.createElement("a");

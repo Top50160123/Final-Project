@@ -42,7 +42,6 @@ const CallbackPage = () => {
 
     fetchData();
   }, [location]);
-  console.log("Token หน้าบ้าน:", accessToken);
 
   useEffect(() => {
     const fetchUserData = async () => {

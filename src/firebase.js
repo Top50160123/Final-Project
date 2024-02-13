@@ -67,19 +67,16 @@ async function saveUserCMU(data) {
   }
 }
 
-async function getUserCMU(newUID) {
+async function getUserCMU() {
   try {
     const querySnapshot = await getDocs(collection(db, "usersCMU"));
     const userData = [];
     querySnapshot.forEach((doc) => {
-      const uid = doc.data().uid;
-      if (uid !== newUID) {
-        userData.push({ id: doc.id, ...doc.data() });
-      }
+      userData.push({ id: doc.id, ...doc.data() });
     });
     return userData;
   } catch (error) {
-    console.error("Error fetching user data from Firestore:", error);
+    console.error("Error getting documents: ", error);
     return [];
   }
 }
