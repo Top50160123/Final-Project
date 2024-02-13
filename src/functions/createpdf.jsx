@@ -19,7 +19,7 @@ const generatePDF = async (userInput, fileName) => {
     console.error("Error generating PDF:", error);
     return { success: false, error: "PDF generation failed" };
   }
-};
+}; 
 
 const exportGeneratedPDF = (generatedPdfUrl, currentFileName) => {
   if (generatedPdfUrl) {
