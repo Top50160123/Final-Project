@@ -1,15 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { userCMU } from "../firebase";
-import { getUserCMU } from "../firebase";
 
 const CallbackPage = () => {
   const location = useLocation();
   const [userCmu, setUserCmu] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
   const navigate = useNavigate();
-  const [userData, setUserData] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,14 +72,13 @@ const CallbackPage = () => {
     const updateUserCmu = async () => {
       try {
         if (userCmu) {
-          console.log("userData:", userData);
           const userCMUObject = {
             firstname_TH: userCmu.firstname_TH,
             lastname_TH: userCmu.lastname_TH,
             student_id: userCmu.student_id,
             uid: userCmu.uid,
           };
-          await userCMU(userCMUObject);
+          await db.collection("usersCMU").doc(userCmu.uid).set(userCMUObject);
           navigate("/DocumentDownload");
         }
       } catch (error) {
@@ -92,19 +88,6 @@ const CallbackPage = () => {
 
     updateUserCmu();
   }, [navigate, userCmu]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getUserCMU();
-        setUserData(data);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   return null;
 };

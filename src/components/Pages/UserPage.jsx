@@ -29,28 +29,14 @@ function UserPage() {
       try {
         const document = pdfData.find((doc) => doc.type === selectedType);
         const { fileName, content, url } = document || {};
-        if (userData) {
-          console.log("CMU")
-          console.log("CMU:",userData.firstname_TH,userData?.uid);
-          await SignDoc(
-            userData.firstname_TH,
-            userData.uid,
-            selectedType,
-            fileName,
-            content,
-            url
-          );
-        } else {
-          console.log("Email")
-          await SignDoc(
-            user?.email,
-            user?.uid,
-            selectedType,
-            fileName,
-            content,
-            url
-          );
-        }
+        await SignDoc(
+          user?.email,
+          user?.uid,
+          selectedType,
+          fileName,
+          content,
+          url
+        );
         console.log("Document signed successfully!");
       } catch (error) {
         console.error("Error signing document:", error);
@@ -65,6 +51,8 @@ function UserPage() {
           const documentUrl = await getUrl(user.uid);
           setLatestFile(documentUrl.FileName);
           setLatestUrl(documentUrl.latestUrl);
+          console.log("Latest URL:", documentUrl.latestUrl);
+          console.log("File Name:", documentUrl.FileName);
         }
       } catch (error) {
         console.error("Error fetching PDF data:", error);
