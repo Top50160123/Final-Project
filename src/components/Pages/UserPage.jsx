@@ -51,9 +51,7 @@ function UserPage() {
       try {
         const documents = await getCreatedDocuments();
         setPdfData(documents);
-        console.log("documents : ", documents);
         documents.forEach((document) => {
-          console.log("document file name : ", document.fileName);
           setFileName(document.fileName);
         });
         const typesSet = new Set(documents.map((document) => document.type));
@@ -71,7 +69,6 @@ function UserPage() {
     const fetchData = async () => {
       try {
         const data = await getUserCMU();
-        console.log("data", data);
         setUserDataEmail(data.email)
         setUserData(data);
       } catch (error) {
@@ -95,6 +92,7 @@ function UserPage() {
     }
   };
 
+  console.log("userData?.email -1:",userDataEmail)
 
   const handleSignDocument = async () => {
     if (selectedType) {
