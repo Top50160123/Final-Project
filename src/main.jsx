@@ -19,19 +19,19 @@ import Callback from "./auth/callback.jsx";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: `${process.env.REACT_APP_API_URL}/`,
     element: <App />,
   },
   {
-    path: "/login",
+    path: `${process.env.REACT_APP_API_URL}/login`,
     element: <Login />,
   },
   {
-    path: "/register",
+    path: `${process.env.REACT_APP_API_URL}/register`,
     element: <Register />,
   },
   {
-    path: "/DocumentDownload",
+    path: `${process.env.REACT_APP_API_URL}/DocumentDownload`,
     element: (
       <ProtectedRoute>
         <UserPage />
@@ -39,11 +39,11 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/contactUsOtp",
+    path: `${process.env.REACT_APP_API_URL}/contactUsOtp`,
     element: <ContactUs />,
   },
   {
-    path: "/Documents",
+    path: `${process.env.REACT_APP_API_URL}/Documents`,
     element: (
       <ProtectedRoute>
         <AdminPage />
@@ -51,7 +51,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/CreateDocuments",
+    path: `${process.env.REACT_APP_API_URL}/CreateDocuments`,
     element: (
       <ProtectedRoute>
         <CreatePDF />
