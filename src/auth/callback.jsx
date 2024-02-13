@@ -82,7 +82,7 @@ const CallbackPage = () => {
             uid: userCmu.uid,
           };
           await userCMU(userCMUObject);
-          navigate("/DocumentDownload")
+          navigate("/DocumentDownload");
         }
       } catch (error) {
         console.error("Error updating user data:", error);

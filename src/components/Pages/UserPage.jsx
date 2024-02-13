@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { getCreatedDocuments, SignDoc, getUrl } from "../../firebase";
+import { getUserCMU } from "../../firebase";
 
 function UserPage() {
   const { logOut, user } = useUserAuth();
@@ -12,6 +13,7 @@ function UserPage() {
   const [latestFile, setLatestFile] = useState("");
   const [latestUrl, setLatestUrl] = useState("");
   const [fileName, setFileName] = useState("");
+  const [usersCMU, setUsersCMU] = useState("");
 
   const handleLogout = async () => {
     try {
@@ -81,6 +83,17 @@ function UserPage() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getUserData();
+        setUsersCMU(data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+  }, []);
+
   const exportGeneratedPDF = () => {
     if (latestUrl) {
       const link = document.createElement("a");
@@ -97,8 +110,19 @@ function UserPage() {
   return (
     <div>
       <h2>Welcome</h2>
-      <p>{user?.email}</p>
-      <p>{user?.uid}</p>
+      {usersCMU ? (
+        <>
+          {userData.map((user) => (
+            <li key={user.id}>
+              {user.firstname_TH} {user.lastname_EN} - {user.student_id}
+            </li>
+          ))}
+        </>
+      ) : (
+        <>
+          <p>{user?.email} </p>
+        </>
+      )}
 
       <button onClick={handleLogout} variant="danger">
         Logout
