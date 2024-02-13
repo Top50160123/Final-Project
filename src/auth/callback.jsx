@@ -73,6 +73,7 @@ const CallbackPage = () => {
         console.log("Navigate Done", userCmu.firstname_TH);
         console.log("Navigate Done", userCmu.lastname_EN);
         console.log("Navigate Done", userCmu.student_id);
+        console.log("Navigate Done", userCmu.uid);
 
       }
     } catch (error) {
