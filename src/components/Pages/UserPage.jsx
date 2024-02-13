@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { getCreatedDocuments, SignDoc, getUrl } from "../../firebase";
 import { getUserCMU } from "../../firebase";
-import { saveUserCMU } from "../../firebase";
 import { v4 as uuidv4 } from "uuid";
 
 
@@ -70,7 +69,7 @@ function UserPage() {
       try {
         const data = await getUserCMU();
         console.log(data)
-        setUserDataEmail(data.email)
+        setUserDataEmail(data[0].email)
         setUserData(data);
       } catch (error) {
         console.error("Error fetching user data:", error);
