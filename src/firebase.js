@@ -55,6 +55,20 @@ async function userCMU(data) {
   }
 }
 
+async function getUserCMU() {
+  try {
+    const querySnapshot = await getDocs(collection(db, "usersCMU"));
+    const userData = [];
+    querySnapshot.forEach((doc) => {
+      userData.push({ id: doc.id, ...doc.data() });
+    });
+    return userData;
+  } catch (error) {
+    console.error("Error fetching user data from Firestore:", error);
+    return [];
+  }
+}
+
 // Admin create PDF
 async function addAction(admin, uid, action, type, fileName, content, Url) {
   const pdfData = {
@@ -238,6 +252,7 @@ async function deleteUrl(uid) {
 
 export {
   updateUser,
+  getUserCMU,
   checkAdmin,
   userCMU,
   createPdf,

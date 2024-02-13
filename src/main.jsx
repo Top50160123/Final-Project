@@ -33,9 +33,9 @@ const router = createBrowserRouter([
   {
     path: "/DocumentDownload",
     element: (
-      <ProtectedRoute>
+      // <ProtectedRoute>
         <UserPage />
-      </ProtectedRoute>
+      // </ProtectedRoute>
     ),
   },
   {
