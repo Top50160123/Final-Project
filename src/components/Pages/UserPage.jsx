@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { getCreatedDocuments, SignDoc, getUrl } from "../../firebase";
 import { getUserCMU } from "../../firebase";
+import { saveUserCMU } from "../../firebase";
+import { v4 as uuidv4 } from "uuid";
+
 
 function UserPage() {
   const { logOut, user } = useUserAuth();
@@ -29,14 +32,28 @@ function UserPage() {
       try {
         const document = pdfData.find((doc) => doc.type === selectedType);
         const { fileName, content, url } = document || {};
-        await SignDoc(
-          user?.email,
-          user?.uid,
-          selectedType,
-          fileName,
-          content,
-          url
-        );
+        const CMUUid = uuidv4();
+        if(userData){
+          console.log("CMU");
+          await SignDoc(
+            userData?.email,
+            CMUUid,
+            selectedType,
+            fileName,
+            content,
+            url
+          );
+        } else {
+          console.log("Email");
+          await SignDoc(
+            user?.email,
+            user?.uid,
+            selectedType,
+            fileName,
+            content,
+            url
+          );
+        }
         console.log("Document signed successfully!");
       } catch (error) {
         console.error("Error signing document:", error);
@@ -89,6 +106,7 @@ function UserPage() {
         const data = await getUserCMU();
         console.log("data", data);
         setUserData(data);
+        await saveUserCMU(data);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -96,8 +114,6 @@ function UserPage() {
 
     fetchData();
   }, []);
-
-  console.log("userData", userData);
 
   const exportGeneratedPDF = () => {
     if (latestUrl) {
@@ -119,7 +135,6 @@ function UserPage() {
         <>
           {userData.map((s) => (
             <div key={s.id}>
-              {" "}
               {s.name} {s.lastName} : {s.studentId}
             </div>
           ))}

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
 import { userCMU } from "../firebase";
 
 const CallbackPage = () => {
