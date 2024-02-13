@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react';  import qs from 'qs';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useState, useEffect, createContext, useContext } from 'react';  
+import { useLocation, useNavigate } from 'react-router-dom';
+
+const UserContext = createContext(null);
 
 const CallbackPage = () => {
   const location = useLocation();
@@ -49,10 +51,9 @@ const CallbackPage = () => {
           });
           const userData = await response.json();
           setUser(userData);
-          if(userData){
+          if (userData) {
             console.log("done")
             navigate("/DocumentDownload");
-            console.log("userData:", user)
           }
         } catch (error) {
           console.error('Error fetching user data:', error.message);
@@ -61,9 +62,18 @@ const CallbackPage = () => {
     };
 
     fetchUserData();
-  }, [accessToken]);
-  
-  return null;
+  }, [accessToken, navigate]);
+
+  console.log("userData:", user);
+
+  return (
+    <UserContext.Provider value={user}>
+    </UserContext.Provider>
+  );
 }
+
+export const useUser = () => {
+  return useContext(UserContext);
+};
 
 export default CallbackPage;
