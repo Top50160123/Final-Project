@@ -68,7 +68,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/callback",
-    element:<Callback />
+    element: <Callback />,
   },
 ]);
 

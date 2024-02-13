@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 const CallbackPage = () => {
   const location = useLocation();
-  const [userData, setUserData] = useState(null);
+  const [userCmu, setUserCmu] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
   const navigate = useNavigate();
 
@@ -57,12 +57,7 @@ const CallbackPage = () => {
             }
           );
           const userData = await response.json();
-          console.log("userData", userData);
-          // setUserData(userData);
-          // if(userData){
-          //   navigate("/");
-          //   console.log("Navigate Done");
-          // }
+          setUserCmu(userData);
         } catch (error) {
           console.error("Error fetching user data:", error.message);
         }
@@ -70,9 +65,14 @@ const CallbackPage = () => {
     };
 
     fetchUserData();
-  }, [accessToken, navigate]);
+  }, [accessToken]);
 
-  // console.log("userData:",userData)
+  useEffect(() => {
+    if (userCmu) {
+      navigate("/DocumentDownload");
+      console.log("Navigate Done");
+    }
+  }, [navigate, userCmu]);
 
   return null;
 };
