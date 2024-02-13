@@ -58,8 +58,8 @@ const CallbackPage = () => {
             }
           );
           const userData = await response.json();
-          const uid = uuidv4();
-          setUserCmu({ ...userData, uid });
+          // const uid = uuidv4();
+          setUserCmu( ...userData);
         } catch (error) {
           console.error("Error fetching user data:", error.message);
         }
@@ -77,7 +77,7 @@ const CallbackPage = () => {
             firstname_TH: userCmu.firstname_TH,
             lastname_TH: userCmu.lastname_TH,
             student_id: userCmu.student_id,
-            uid: userCmu.uid,
+            // email: userCmu.
           };
           await userCMU(userCMUObject);
           navigate("/DocumentDownload");
