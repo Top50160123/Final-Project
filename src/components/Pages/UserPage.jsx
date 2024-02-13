@@ -94,6 +94,8 @@ function UserPage() {
     };
   }, []);
 
+  console.log("usersCMU:", usersCMU);
+
   const exportGeneratedPDF = () => {
     if (latestUrl) {
       const link = document.createElement("a");
