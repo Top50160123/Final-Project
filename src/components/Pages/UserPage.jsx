@@ -87,6 +87,7 @@ function UserPage() {
     const fetchData = async () => {
       try {
         const data = await getUserCMU();
+        console.log("data", data);
         setUserData(data);
       } catch (error) {
         console.error("Error fetching user data:", error);
