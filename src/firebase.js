@@ -263,24 +263,6 @@ const getAllSignData = async () => {
   return allSignData; 
 };
 
-async function deleteUrl(uid) {
-  const userDocRef = doc(db, "signUrl", uid);
-
-  try {
-    const docSnapshot = await getDoc(userDocRef);
-
-    if (docSnapshot.exists()) {
-      await deleteDoc(userDocRef);
-      console.log(`Document deleted for UID ${uid}`);
-    } else {
-      console.log(`No document found for UID ${uid}`);
-    }
-  } catch (error) {
-    console.error("Error deleting document:", error);
-    throw error;
-  }
-}
-
 export {
   updateUser,
   getUserCMU,
@@ -298,6 +280,5 @@ export {
   UrlSign,
   getUrl,
   getAllSignData,
-  deleteUrl,
 };
 export default app;
