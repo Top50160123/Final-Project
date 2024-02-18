@@ -81,168 +81,187 @@ async function getUserCMU() {
   }
 }
 
-// Admin create PDF
-async function addAction(admin, uid, action, type, fileName, content, Url) {
+// Audit Log
+async function addAction(admin, action, fileName, Url) {
   const pdfData = {
     admin: admin,
-    uid: uid,
     action: action,
-    type: type,
     fileName: fileName,
-    content: content,
     url: Url,
     timestamp: serverTimestamp(),
   };
-
-  const userDocumentsCollection = collection(
-    db,
-    "auditLog",
-    auth.currentUser.uid,
-    "documents"
-  );
-
-  try {
-    const docRef = await addDoc(userDocumentsCollection, pdfData);
-    console.log("Document added with ID: ", docRef.id);
-  } catch (error) {
-    console.error("Error adding document: ", error);
-    throw error;
-  }
+  await addDoc(collection(db, "audit_log"), pdfData);
 }
 
 // Add to auditLogaddAction
-async function createPdf(action, type, fileName, content, Url) {
+async function createPdf(fileName, Url, user) {
   const AddAction = {
-    action: action,
-    type: type,
     fileName: fileName,
-    content: content,
     url: Url,
+    user: user,
     timestamp: serverTimestamp(),
   };
   await addDoc(collection(db, "create"), AddAction);
 }
 
-// get audit
-async function getDocuments(uid) {
-  try {
-    const userDocumentsCollection = collection(
-      db,
-      "auditLog",
-      uid,
-      "documents"
-    );
-    const querySnapshot = await getDocs(userDocumentsCollection);
-    const documents = [];
-    querySnapshot.forEach((doc) => {
-      const documentData = doc.data();
-      documents.push({
-        id: doc.id,
-        ...documentData,
-      });
-    });
+async function deleteRelatedDocumentsByUrl(url) {
+  const querySnapshot = await getDocs(collection(db, "create"));
+  const batch = writeBatch(db);
 
-    return documents;
-  } catch (error) {
-    ป;
-    console.error("Error getting documents: ", error);
-    throw error;
-  }
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    if (data.url === url) {
+      batch.delete(doc.ref);
+    }
+  });
+
+  // Execute the batch operation
+  await batch.commit();
 }
 
+async function deleteDocumentsByUrl(url) {
+  const signCollectionRef = collection(db, "sign");
+  const querySnapshot = await query(
+    signCollectionRef,
+    where("files.Url", "==", url)
+  ).get();
+
+  querySnapshot.forEach(async (doc) => {
+    try {
+      await deleteDoc(doc.ref);
+      console.log("Document deleted successfully:", doc.id);
+    } catch (error) {
+      console.error("Error deleting document:", error);
+    }
+  });
+}
+
+// get create doc
 async function getCreatedDocuments() {
-  try {
-    const createCollection = collection(db, "create");
-    const querySnapshot = await getDocs(createCollection);
-    const documents = [];
+  const querySnapshot = await getDocs(collection(db, "create"));
+  const getCreate = [];
+  querySnapshot.forEach((doc) => {
+    getCreate.push({ id: doc.id, data: doc.data() });
+  });
+  return getCreate;
+}
 
-    querySnapshot.forEach((doc) => {
-      const documentData = doc.data();
-      documents.push({
-        id: doc.id,
-        ...documentData,
-      });
-    });
-
-    return documents;
-  } catch (error) {
-    console.error("Error getting created documents: ", error);
-    throw error;
-  }
+// get audit
+async function getDocuments() {
+  const querySnapshot = await getDocs(collection(db, "audit_log"));
+  const auditLogs = [];
+  querySnapshot.forEach((doc) => {
+    auditLogs.push({ id: doc.id, data: doc.data() });
+  });
+  return auditLogs;
 }
 
 // want to sign Doc
-async function SignDoc(email, uid, type, fileName, content, Url) {
-  const signDoc = {
-    email: email,
-    uid: uid,
-    type: type,
-    fileName: fileName,
-    content: content,
-    url: Url,
-    timestamp: serverTimestamp(),
-  };
-  const docRef = await addDoc(collection(db, "sign"), signDoc);
-  const signedDocument = await getDoc(docRef);
-  return signedDocument.data();
+async function SignDoc(email, type, Url) {
+  const signCollectionRef = collection(db, "sign");
+  const userSignDocRef = doc(signCollectionRef, email);
+
+  const docSnapshot = await getDoc(userSignDocRef);
+  if (docSnapshot.exists()) {
+    const data = docSnapshot.data();
+    const newFileName = `fileName${Object.keys(data.files).length + 1}`;
+    const newData = {
+      ...data,
+      files: {
+        ...data.files,
+        [newFileName]: { type, Url, timestamp: serverTimestamp() },
+      },
+    };
+    await setDoc(userSignDocRef, newData);
+
+    return newData;
+  } else {
+    const signDoc = {
+      files: {
+        fileName1: { type, Url, timestamp: serverTimestamp() },
+      },
+    };
+    await setDoc(userSignDocRef, signDoc);
+    return signDoc;
+  }
 }
 
 async function getSignedDocument() {
-  try {
-    const createCollection = collection(db, "sign");
-    const querySnapshot = await getDocs(createCollection);
-    const documents = [];
+  const signCollectionRef = collection(db, "sign");
+  const snapshot = await getDocs(signCollectionRef);
 
-    if (!querySnapshot.empty) {
-      querySnapshot.forEach((doc) => {
-        const documentData = doc.data();
-        documents.push({
-          id: doc.id,
-          ...documentData,
-        });
-      });
-    }
+  const allUserData = [];
+  snapshot.forEach((doc) => {
+    const userData = doc.data();
+    allUserData.push({ email: doc.id, files: userData.files });
+  });
 
-    return documents;
-  } catch (error) {
-    console.error("Error getting signed document:", error);
-    throw error;
+  return allUserData;
+}
+
+async function UrlSign(user, fileName, date, url, action) {
+  const signCollectionRef = collection(db, "signUrl");
+  const userSignDocRef = doc(signCollectionRef, user);
+
+  const docSnapshot = await getDoc(userSignDocRef);
+  if (docSnapshot.exists()) {
+    const data = docSnapshot.data();
+    const newFileName = `fileName${Object.keys(data.files).length + 1}`;
+    const newData = {
+      ...data,
+      files: {
+        ...data.files,
+        [newFileName]: { fileName, url, date, action },
+      },
+    };
+    await setDoc(userSignDocRef, newData);
+
+    return newData;
+  } else {
+    const signDoc = {
+      files: {
+        fileName1: { fileName, url, date, action },
+      },
+    };
+    await setDoc(userSignDocRef, signDoc);
+    return signDoc;
   }
 }
 
-async function UrlSign(uid, fileName, Url) {
-  const urlSign = {
-    fileName: fileName,
-    url: Url,
-  };
-  const userDocRef = doc(db, "signUrl", uid);
-  await setDoc(userDocRef, urlSign);
-}
+async function getUrl(user) {
+  const signCollectionRef = collection(db, "signUrl");
+  const userSignDocRef = doc(signCollectionRef, user);
+  const docSnapshot = await getDoc(userSignDocRef);
 
-async function getUrl(uid) {
-  const userDocRef = doc(db, "signUrl", uid);
-
-  try {
-    const docSnapshot = await getDoc(userDocRef);
-
-    if (docSnapshot.exists()) {
-      const urlData = docSnapshot.data();
-      const latestUrl = urlData.url;
-      const FileName = urlData.fileName;
-
-      console.log(`Latest URL for UID ${uid}: ${latestUrl}`);
-      console.log(`Latest URL for FileName ${uid}: ${FileName}`);
-
-      return { latestUrl, FileName };
-    } else {
-      console.log(`No document found for UID ${uid}`);
-      return null;
-    }
-  } catch (error) {
-    console.error("Error getting document:", error);
-    throw error;
+  if (docSnapshot.exists()) {
+    const userData = docSnapshot.data();
+    const files = userData.files;
+    return files;
+  } else {
+    return null;
   }
 }
+
+const getAllSignData = async () => {
+  const signCollectionRef = collection(db, "signUrl");
+  const querySnapshot = await getDocs(signCollectionRef);
+
+  const allSignData = [];
+  querySnapshot.forEach(doc => {
+    const userData = doc.data();
+    const files = userData.files;
+
+    const userSignInfo = Object.values(files).map(file => ({
+      user: doc.id, 
+      action: file.action,
+      date: file.date,
+    }));
+
+    allSignData.push(...userSignInfo);
+  });
+
+  return allSignData; 
+};
 
 async function deleteUrl(uid) {
   const userDocRef = doc(db, "signUrl", uid);
@@ -269,6 +288,8 @@ export {
   checkAdmin,
   userCMU,
   createPdf,
+  deleteRelatedDocumentsByUrl,
+  deleteDocumentsByUrl,
   getDocuments,
   addAction,
   getCreatedDocuments,
@@ -276,6 +297,7 @@ export {
   getSignedDocument,
   UrlSign,
   getUrl,
+  getAllSignData,
   deleteUrl,
 };
 export default app;

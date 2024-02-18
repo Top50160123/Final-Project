@@ -1,15 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { generatePDF } from "../../functions/createpdf";
-import { useLocation, Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { createPdf, addAction } from "../../firebase";
 
 const CreatePDF = () => {
-  const location = useLocation();
-  const { userId } = location.state || {};
   const [userInput, setUserInput] = useState("");
   const [fileName, setFileName] = useState("");
-  const [generatedPdfUrl, setGeneratedPdfUrl] = useState(null);
-
   const handleInputChange = (e) => {
     setUserInput(e.target.value);
   };
@@ -19,42 +14,26 @@ const CreatePDF = () => {
   };
 
   const handleExportPdf = async () => {
-    const result = await generatePDF(userInput, fileName);
+    try {
+      const response = await fetch("http://localhost:5004/generate-pdf", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userInput, fileName }),
+      });
 
-    if (result.success) {
-      const pdfUrl = result.fileUrl;
-      setGeneratedPdfUrl(pdfUrl);
-
-      try {
-        if (userId) {
-          await addAction(
-            "admin",
-            userId,
-            "create",
-            "English Transcript",
-            fileName,
-            userInput,
-            pdfUrl
-          );
-          await createPdf(
-            "create",
-            "English Transcript",
-            fileName,
-            userInput,
-            pdfUrl
-          );
-        } else {
-          console.error("userId is undefined");
-        }
-      } catch (error) {
-        console.error("Error saving PDF to database:", error);
+      if (!response.ok) {
+        throw new Error("Failed to generate PDF");
       }
+
+      const data = await response.json();
+      await createPdf(data.fileName, data.url, "admin");
+      await addAction("admin", "create", data.fileName, data.url)
+    } catch (error) {
+      console.error("Error-ExportPdf:", error);
     }
   };
-
-  useEffect(() => {
-    console.log("generatedPdfUrl:", generatedPdfUrl);
-  }, [generatedPdfUrl]);
 
   return (
     <div>

@@ -1,12 +1,15 @@
 const generatePDF = async (userInput, fileName) => {
   try {
-    const response = await fetch("https://server-node-tau.vercel.app/generate-pdf" , {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userInput, fileName }),
-    });
+    const response = await fetch(
+      "http://localhost:5003/generate-pdf",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userInput: userInput, fileName: fileName }),
+      }
+    );
 
     if (!response.ok) {
       throw new Error("PDF generation failed");
@@ -19,7 +22,7 @@ const generatePDF = async (userInput, fileName) => {
     console.error("Error generating PDF:", error);
     return { success: false, error: "PDF generation failed" };
   }
-}; 
+};
 
 const exportGeneratedPDF = (generatedPdfUrl, currentFileName) => {
   if (generatedPdfUrl) {

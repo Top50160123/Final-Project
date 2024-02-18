@@ -1,32 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useUserAuth } from "../../context/UserAuthContext";
-import { getDocuments } from "../../firebase"; // Assuming you have a function getDocuments
+import { getDocuments } from "../../firebase";
 
 const AuditPDF = () => {
   const [documents, setDocuments] = useState([]);
-  const { user } = useUserAuth();
 
   useEffect(() => {
-    const uid = user?.uid || "";
-    let unsubscribe; // Declare the variable here
-
-    if (uid) {
-      unsubscribe = getDocuments(uid) // Replace getList with getDocuments
-        .then((documents) => {
-          setDocuments(documents);
-        })
-        .catch((error) => {
-          console.error("Error fetching documents:", error);
-        });
-    }
-
-    return () => {
-      if (unsubscribe && typeof unsubscribe === "function") {
-        unsubscribe();
+    const fetchDocuments = async () => {
+      try {
+        const documentsData = await getDocuments();
+        setDocuments(documentsData);
+      } catch (error) {
+        console.error("Error fetching documents: ", error);
       }
     };
-  }, [user]);
+
+    fetchDocuments();
+  }, []);
 
   return (
     <div>
@@ -36,20 +26,16 @@ const AuditPDF = () => {
       <div>
         <h2>Document List:</h2>
         <ul>
-          {documents.map((document) => (
-            <li key={document.id}>
-              <p>Document ID: {document.id}</p>
-              <p>Action: {document.action}</p>
-              <p>Type: {document.type}</p>
-              <p>FileName: {document.fileName}</p>
-              <p>Content: {document.content}</p>
-              <p>URL: {document.url}</p>
+          {documents.map((d) => (
+            <div key={d.id}>
+              <p>FileName: {d.data.fileName}</p>
+              <p>Admin: {d.data.admin}</p>
               <p>
-                Timestamp:{" "}
-                {document.timestamp && document.timestamp.toDate().toString()}
+                Timestamp:
+                {new Date(d.data.timestamp.seconds * 1000).toLocaleString()}
               </p>
-              {/* Add other properties as needed */}
-            </li>
+              <p>Action: {d.data.action}</p>
+            </div>
           ))}
         </ul>
       </div>

@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserAuth } from "../../context/UserAuthContext";
-import { getCreatedDocuments, SignDoc, getUrl } from "../../firebase";
+import {
+  getCreatedDocuments,
+  SignDoc,
+  getUrl,
+  addAction,
+} from "../../firebase";
 import { getUserCMU } from "../../firebase";
 import { v4 as uuidv4 } from "uuid";
-
 
 function UserPage() {
   const { logOut, user } = useUserAuth();
   const navigate = useNavigate();
   const [pdfData, setPdfData] = useState([]);
-  const [uniqueTypes, setUniqueTypes] = useState([]);
   const [selectedType, setSelectedType] = useState("");
-  const [latestFile, setLatestFile] = useState("");
-  const [latestUrl, setLatestUrl] = useState("");
-  const [fileName, setFileName] = useState("");
   const [userData, setUserData] = useState("");
-  const [userDataEmail ,setUserDataEmail] = useState("");
+  const [userDataEmail, setUserDataEmail] = useState("");
 
   const handleLogout = async () => {
     try {
@@ -30,12 +30,12 @@ function UserPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (user?.uid) {
-          const documentUrl = await getUrl(user.uid);
-          setLatestFile(documentUrl.FileName);
-          setLatestUrl(documentUrl.latestUrl);
-          console.log("Latest URL:", documentUrl.latestUrl);
-          console.log("File Name:", documentUrl.FileName);
+        if (user?.email) {
+          const documentUrl = await getUrl(user.email);
+          console.log("documentUrl", documentUrl);
+        } else {
+          const documentUrl = await getUrl(userDataEmail);
+          console.log("documentUrl", documentUrl);
         }
       } catch (error) {
         console.error("Error fetching PDF data:", error);
@@ -43,19 +43,14 @@ function UserPage() {
     };
 
     fetchData();
-  }, [user?.uid]);
+  }, [user?.email, userDataEmail]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const documents = await getCreatedDocuments();
         setPdfData(documents);
-        documents.forEach((document) => {
-          setFileName(document.fileName);
-        });
-        const typesSet = new Set(documents.map((document) => document.type));
-        const uniqueTypesArray = Array.from(typesSet);
-        setUniqueTypes(uniqueTypesArray);
+        console.log("documents:", documents);
       } catch (error) {
         console.error("Error fetching PDF data:", error);
       }
@@ -68,8 +63,8 @@ function UserPage() {
     const fetchData = async () => {
       try {
         const data = await getUserCMU();
-        console.log(data)
-        setUserDataEmail(data[0].email)
+        console.log(data);
+        setUserDataEmail(data[0].email);
         setUserData(data);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -79,49 +74,35 @@ function UserPage() {
     fetchData();
   }, []);
 
-  const exportGeneratedPDF = () => {
-    if (latestUrl) {
-      const link = document.createElement("a");
-      link.href = latestUrl;
-      link.download = latestFile;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } else {
-      console.warn("Cannot generate PDF file");
-    }
-  };
-
-  console.log("userData?.email -1:",userDataEmail)
+  console.log("selectedType:", selectedType);
 
   const handleSignDocument = async () => {
     if (selectedType) {
       try {
-        const document = pdfData.find((doc) => doc.type === selectedType);
-        const { fileName, content, url } = document || {};
         const CMUUid = uuidv4();
-        if(userData){
-          console.log("userData?.email -2:",userDataEmail)
-          await SignDoc(
-            userDataEmail,
-            CMUUid,
-            selectedType,
-            fileName,
-            content,
-            url
-          );
+        if (userData) {
+          console.log("CMU");
+          // await SignDoc(
+          //   userDataEmail,
+          //   CMUUid,
+          //   selectedType,
+          //   fileName,
+          //   content,
+          //   url
+          // );
         } else {
-          console.log("Email");
           await SignDoc(
             user?.email,
-            user?.uid,
             selectedType,
-            fileName,
-            content,
-            url
+            pdfData.find((doc) => doc.data.fileName === selectedType)?.data.url
+          );
+          await addAction(
+            user?.email,
+            "request",
+            selectedType,
+            pdfData.find((doc) => doc.data.fileName === selectedType)?.data.url
           );
         }
-        console.log("Document signed successfully!");
       } catch (error) {
         console.error("Error signing document:", error);
       }
@@ -157,9 +138,9 @@ function UserPage() {
           }}
         >
           <option value="">Select Type</option>
-          {uniqueTypes.map((type) => (
-            <option key={type} value={type}>
-              {type}
+          {pdfData.map((d) => (
+            <option key={d.id} value={d.data.fileName}>
+              {d.data.fileName}
             </option>
           ))}
         </select>
@@ -170,9 +151,6 @@ function UserPage() {
           </div>
         )}
       </div>
-      <div>Name: {fileName}</div>
-      <div>download : {latestUrl}</div>
-      <button onClick={exportGeneratedPDF}>Download Doc</button>
     </div>
   );
 }
