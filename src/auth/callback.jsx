@@ -42,6 +42,8 @@ const CallbackPage = () => {
     fetchData();
   }, [location]);
 
+  console.log("accessToken", accessToken);
+
   useEffect(() => {
     const fetchUserData = async () => {
       if (accessToken) {
@@ -66,6 +68,8 @@ const CallbackPage = () => {
 
     fetchUserData();
   }, [accessToken]);
+
+  console.log("userCmu", userCmu);
 
   useEffect(() => {
     const updateUserCmu = async () => {
