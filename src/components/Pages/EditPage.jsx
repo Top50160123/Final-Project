@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   deleteRelatedDocumentsByUrl,
@@ -16,9 +16,10 @@ const DocumentDetail = () => {
     fileName.timestamp.seconds * 1000 + fileName.timestamp.nanoseconds / 1000000
   );
 
-  const signPDF = async () => {
-    console.log("sign pdf");
-  };
+  const [qrCodeUrl, setQrCodeUrl] = useState("");
+  const [openQr, setOpenQr] = useState(false);
+  const [qr, setQr] = useState("");
+  const [secretKey, setSecretKey] = useState("");
 
   const handleDelete = async (fileName, url) => {
     try {
@@ -85,6 +86,70 @@ const DocumentDetail = () => {
     }
   };
 
+  const handleConfirmQr = async ({ user, fileName, date, url, action }) => {
+    try {
+      rejectPDF({
+        user: user,
+        fileName: fileName,
+        date: date,
+        url: url,
+        action: action,
+      });
+      const response = await fetch("http://localhost:5004/api/verify-otp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          otp: qr,
+          secret: secretKey,
+        }),
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error confirming QR:", error);
+    }
+  };
+
+  const fetchSecretKey = async () => {
+    try {
+      const response = await fetch("http://localhost:5004/api/get-secret-key");
+      const data = await response.json();
+      const secretKey = data.secretKey;
+      setSecretKey(secretKey);
+    } catch (error) {
+      console.error("Error fetching secret key:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSecretKey();
+  }, []);
+
+  useEffect(() => {
+    const fetchQrCodeUrl = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:5004/api/generate-otp-and-qrcode",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const data = await response.json();
+        console.log("have qr- code");
+        setQrCodeUrl(data.qrcode);
+      } catch (error) {
+        console.error("Error fetching QR code URL:", error);
+      }
+    };
+
+    fetchQrCodeUrl();
+  }, []);
+
   return (
     <>
       <div>
@@ -107,18 +172,31 @@ const DocumentDetail = () => {
           Reject
         </button>
         <button
-          onClick={() =>
-            rejectPDF({
-              user: user,
-              fileName: fileName,
-              date: timestampDate.toLocaleString(),
-              url: fileName.Url[0],
-              action: "sign",
-            })
-          }
+          onClick={() => {
+            setOpenQr(true);
+          }}
         >
           Sign
         </button>
+        {openQr ? (
+          <>
+            {qrCodeUrl && <img src={qrCodeUrl} />}
+            <input value={qr} onChange={(e) => setQr(e.target.value)} />
+            <button
+              onClick={() =>
+                handleConfirmQr({
+                  user: user,
+                  fileName: fileName,
+                  date: timestampDate.toLocaleString(),
+                  url: fileName.Url[0],
+                  action: "sign",
+                })
+              }
+            >
+              Confirm to sign
+            </button>
+          </>
+        ) : null}
         <button onClick={() => handleDelete(fileName.type, fileName.Url[0])}>
           Edit
         </button>
