@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { getSignedDocument, getUrl } from "../../firebase";
+import { Button, Card, Col, Divider, Row } from "antd";
 
 function AdminPage() {
   const { logOut, user } = useUserAuth();
@@ -49,7 +50,7 @@ function AdminPage() {
 
   return (
     <div>
-      <div>
+      {/* <div>
         <h2>Audit log page</h2>
         <p>{user?.email}</p>
         <button onClick={handleLogout}>Logout</button>
@@ -94,7 +95,91 @@ function AdminPage() {
             </li>
           ))}
         </ul>
-      </div>
+      </div> */}
+      <Row justify={"center"}>
+        <Col
+          style={{
+            fontSize: "20px",
+          }}
+        >
+          Document Request
+        </Col>
+      </Row>
+      <Row justify={"center"}>
+        <Card
+          style={{
+            textAlign: "justify",
+            width: "1023px",
+          }}
+        >
+          <Row>
+            {signedDocuments.map((document) => (
+              <Col
+                span={24}
+                style={{
+                  marginBottom: "10px",
+                }}
+                key={document.id}
+              >
+                <Row>
+                  <Col>Email: {document.email}</Col>
+                </Row>
+
+                {Object.keys(document.files).map((fileName, index) => (
+                  <div key={index}>
+                    <Row>File {index + 1}:</Row>
+
+                    <Row
+                      style={{
+                        wordWrap: "break-word",
+                        overflowWrap: "break-word",
+                      }}
+                    >
+                      <Col>Url :</Col>
+                      <Col>{document.files[fileName].Url[0]}</Col>
+                    </Row>
+
+                    <Row>Type: {document.files[fileName].type}</Row>
+
+                    <Row justify={"center"}>
+                      Date:{" "}
+                      {document.files[fileName].timestamp
+                        .toDate()
+                        .toLocaleString()}
+                    </Row>
+                    <Row justify={"center"}>
+                      <Button
+                        onClick={() =>
+                          handleDetail(document.files[fileName], document.email)
+                        }
+                      >
+                        Document Detail
+                      </Button>
+                    </Row>
+                  </div>
+                ))}
+                <Divider />
+              </Col>
+            ))}
+          </Row>
+        </Card>
+      </Row>
+      <Row
+        justify={"center"}
+        style={{
+          marginTop: "20px",
+        }}
+      >
+        <Col span={24}>Audit Log</Col>
+        <Col span={24}>
+          <Link to="/CreateDocuments" state={{ userId: user?.uid }}>
+            Create Document
+          </Link>
+        </Col>
+        <Col span={24}>
+          <Link to="/Audit">Audit Log</Link>
+        </Col>
+      </Row>
     </div>
   );
 }
