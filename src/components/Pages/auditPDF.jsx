@@ -1,9 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getDocuments } from "../../firebase";
+import { Row, Table } from "antd";
 
 const AuditPDF = () => {
   const [documents, setDocuments] = useState([]);
+
+  const columns = [
+    {
+      title: "File Name",
+      dataIndex: "fileName",
+    },
+    {
+      title: "Admin",
+      dataIndex: "admin",
+    },
+    {
+      title: "Timestamp",
+      dataIndex: "",
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
+    },
+  ];
 
   useEffect(() => {
     const fetchDocuments = async () => {
@@ -38,6 +58,22 @@ const AuditPDF = () => {
             </div>
           ))}
         </ul>
+      </div>
+      <div>
+        <Row justify={"center"}>
+          <Table
+            dataSource={documents.map((document) => ({
+              key: document.id,
+              fileName: document.data.fileName,
+              admin: document.data.admin,
+              timestamp: new Date(
+                document.data.timestamp.seconds * 1000
+              ).toLocaleString(),
+              action: document.data.action,
+            }))}
+            columns={columns}
+          />{" "}
+        </Row>
       </div>
     </div>
   );
