@@ -136,7 +136,16 @@ function AdminPage() {
                       }}
                     >
                       <Col>Url :</Col>
-                      <Col>{document.files[fileName].Url[0]}</Col>
+                      <Col>
+                        {" "}
+                        <a
+                          href={document.files[fileName].Url[0]}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {document.files[fileName].Url[0]}
+                        </a>
+                      </Col>
                     </Row>
 
                     <Row>Type: {document.files[fileName].type}</Row>
