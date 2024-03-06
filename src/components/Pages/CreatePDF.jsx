@@ -15,7 +15,7 @@ const CreatePDF = () => {
 
   const handleExportPdf = async () => {
     try {
-      const response = await fetch(`${import.meta.env.REACT_APP_API_BACK}generate-pdf`, {
+      const response = await fetch(`https://server-node-tau.vercel.app/generate-pdf`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
