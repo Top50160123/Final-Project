@@ -12,7 +12,7 @@ const CallbackPage = () => {
     const fetchData = async () => {
       if (location.pathname === "/callback") {
         const codeFromURL = new URLSearchParams(location.search).get("code");
-
+        console.log("uri:", codeFromURL);
         if (codeFromURL) {
           try {
             const response = await fetch(
