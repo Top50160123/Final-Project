@@ -15,7 +15,7 @@ const CreatePDF = () => {
 
   const handleExportPdf = async () => {
     try {
-      const response = await fetch("http://localhost:5004/generate-pdf", {
+      const response = await fetch(`${import.meta.env.REACT_APP_API_BACK}/generate-pdf`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
