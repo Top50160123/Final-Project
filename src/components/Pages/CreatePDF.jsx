@@ -42,7 +42,7 @@ const CreatePDF = () => {
   return (
     <div>
       <h1>Create Document</h1>
-      {location.state && <>{location.state.userId}</>}
+      {location.state && <>{location.state.userId.Name}</>}
       <form onSubmit={(e) => e.preventDefault()}>
         <label>
           File Name:
