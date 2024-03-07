@@ -38,6 +38,8 @@ const AuditPDF = () => {
     fetchDocuments();
   }, []);
 
+  console.log("documents", documents);
+
   return (
     <div>
       <h1>Audit Document</h1>
@@ -46,20 +48,22 @@ const AuditPDF = () => {
       <div>
         <h2>Document List:</h2>
         <ul>
-          {documents.map((d) => (
-            <div key={d.id}>
-              <p>FileName: {d.data.fileName}</p>
-              <p>Admin: {d.data.admin}</p>
-              <p>
-                Timestamp:
-                {new Date(d.data.timestamp.seconds * 1000).toLocaleString()}
-              </p>
-              <p>Action: {d.data.action}</p>
-            </div>
-          ))}
+          {documents &&
+            documents.map((d) => (
+              <div key={d.id}>
+                {d.data && (
+                  <>
+                    <p>FileName: {d.data.fileName}</p>
+                    <p>Admin: {d.data.admin}</p>
+                    <p>Timestamp: {d.data.timestamp.toDate().toLocaleString()}</p>
+                    <p>Action: {d.data.action}</p>
+                  </>
+                )}
+              </div>
+            ))}
         </ul>
       </div>
-      <div>
+      {/* <div>
         <Row justify={"center"}>
           <Table
             dataSource={documents.map((document) => ({
@@ -74,7 +78,7 @@ const AuditPDF = () => {
             columns={columns}
           />
         </Row>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -56,8 +56,8 @@ function AdminPage() {
     fetchSignedDocuments();
   }, []);
 
-  const handleDetail = (fileName, user) => {
-    navigate("/Detail", { state: { fileName, user } });
+  const handleDetail = (fileName, user, cmuId) => {
+    navigate("/Detail", { state: { fileName, user, cmuId } });
   };
 
   useEffect(() => {
@@ -193,7 +193,7 @@ function AdminPage() {
                     <Row justify={"center"}>
                       <Button
                         onClick={() =>
-                          handleDetail(document.files[fileName], document.email)
+                          handleDetail(document.files[fileName], document.email, location.state.studentId)
                         }
                       >
                         Document Detail
@@ -218,6 +218,7 @@ function AdminPage() {
           <Link
             to={{
               pathname: "/CreateDocuments",
+
             }}
           >
             Create Document

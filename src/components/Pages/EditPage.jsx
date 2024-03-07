@@ -10,7 +10,7 @@ import {
 const DocumentDetail = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { fileName, user } = location.state;
+  const { fileName, user, cmuId } = location.state;
 
   const timestampDate = new Date(
     fileName.timestamp.seconds * 1000 + fileName.timestamp.nanoseconds / 1000000
@@ -210,9 +210,24 @@ const DocumentDetail = () => {
         <button onClick={() => handleDelete(fileName.type, fileName.Url[0])}>
           Edit
         </button>
-        <button onClick={() => handleDeletes(fileName.type, fileName.Url[0])}>
-          Delete
-        </button>
+        {cmuId === "630615045" ? (
+          <>
+            <button
+              onClick={() => handleDeletes(fileName.type, fileName.Url[0])}
+              disabled
+            >
+              Delete
+            </button>
+          </>
+        ) : (
+          <>
+            <button
+              onClick={() => handleDeletes(fileName.type, fileName.Url[0])}
+            >
+              Delete
+            </button>
+          </>
+        )}
       </div>
     </>
   );
