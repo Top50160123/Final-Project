@@ -27,7 +27,7 @@ const DocumentDetail = () => {
       await deleteDocumentsByUrl(url);
       await addAction("admin", "edit", fileName, url);
       const response = await fetch(
-        `http://localhost:5004/api/delete-pdf/${fileName}`,
+        `https://server-node-tau.vercel.app/api/delete-pdf/${fileName}`,
         {
           method: "DELETE",
           headers: {
@@ -55,7 +55,7 @@ const DocumentDetail = () => {
       await deleteDocumentsByUrl(url);
       await addAction("admin", "delete", fileName, url);
       const response = await fetch(
-        `http://localhost:5004/api/delete-pdf/${fileName}`,
+        `https://server-node-tau.vercel.app/api/delete-pdf/${fileName}`,
         {
           method: "DELETE",
           headers: {
@@ -95,7 +95,7 @@ const DocumentDetail = () => {
         url: url,
         action: action,
       });
-      const response = await fetch("http://localhost:5004/api/verify-otp", {
+      const response = await fetch(`https://server-node-tau.vercel.app/api/verify-otp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -114,7 +114,7 @@ const DocumentDetail = () => {
 
   const fetchSecretKey = async () => {
     try {
-      const response = await fetch("http://localhost:5004/api/get-secret-key");
+      const response = await fetch(`https://server-node-tau.vercel.app/api/get-secret-key`);
       const data = await response.json();
       const secretKey = data.secretKey;
       setSecretKey(secretKey);
@@ -131,7 +131,7 @@ const DocumentDetail = () => {
     const fetchQrCodeUrl = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5004/api/generate-otp-and-qrcode",
+          `https://server-node-tau.vercel.app/api/generate-otp-and-qrcode`,
           {
             method: "POST",
             headers: {
