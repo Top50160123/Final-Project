@@ -60,7 +60,7 @@ function UserPage() {
     fetchData();
   }, []);
 
-  console.log("urlSign", urlSign);
+  console.log("urlSign", urlSignEmail);
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -177,7 +177,7 @@ function UserPage() {
               </div>
             ))}
         </div>
-        <div>{urlSignEmail}</div>
+        <div>โชว์ ข้อมูล urlSignEmail ตรงนี้</div>
       </div>
     </div>
   );
