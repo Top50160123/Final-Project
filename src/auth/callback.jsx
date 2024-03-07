@@ -70,7 +70,11 @@ const CallbackPage = () => {
     const updateUserCmu = async () => {
       try {
         if (userCmu) {
-          if (userCmu.student_id === "630615024") {
+          if (
+            userCmu.student_id === "630615024" ||
+            userCmu.student_id === "630615045" ||
+            userCmu.organization_code === "52"
+          ) {
             const userCMUObject = {
               name: userCmu.firstname_TH,
               lastName: userCmu.lastname_TH,

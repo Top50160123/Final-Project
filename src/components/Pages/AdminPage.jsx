@@ -9,9 +9,6 @@ function AdminPage() {
   const [signedDocuments, setSignedDocuments] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
-  const { userCMUObject } = location.state;
-
-  console.log("admin:", userCMUObject)
 
   const handleLogout = async () => {
     try {
@@ -22,29 +19,29 @@ function AdminPage() {
     }
   };
 
-   // Function to logout after 1 minute of inactivity
-   let inactivityTimeout;
-   const setInactivityTimeout = () => {
-     inactivityTimeout = setTimeout(async () => {
-       await logOut();
-       navigate("/");
-     }, 60000); 
-   };
- 
-   const resetInactivityTimeout = () => {
-     clearTimeout(inactivityTimeout);
-     setInactivityTimeout();
-   };
- 
-   useEffect(() => {
-     setInactivityTimeout();
-     window.addEventListener("mousemove", resetInactivityTimeout);
- 
-     return () => {
-       clearTimeout(inactivityTimeout);
-       window.removeEventListener("mousemove", resetInactivityTimeout);
-     };
-   }, []);
+  // Function to logout after 1 minute of inactivity
+  let inactivityTimeout;
+  const setInactivityTimeout = () => {
+    inactivityTimeout = setTimeout(async () => {
+      await logOut();
+      navigate("/");
+    }, 60000);
+  };
+
+  const resetInactivityTimeout = () => {
+    clearTimeout(inactivityTimeout);
+    setInactivityTimeout();
+  };
+
+  useEffect(() => {
+    setInactivityTimeout();
+    window.addEventListener("mousemove", resetInactivityTimeout);
+
+    return () => {
+      clearTimeout(inactivityTimeout);
+      window.removeEventListener("mousemove", resetInactivityTimeout);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchSignedDocuments = async () => {
@@ -125,6 +122,15 @@ function AdminPage() {
         </ul>
       </div> */}
       <Row justify={"center"}>
+        {location.state ? (
+          <>
+            <div>Name: {location.state.name}</div>
+            <div>Last Name: {location.state.lastName}</div>
+            <div>Student ID: {location.state.studentId}</div>
+          </>
+        ) : (
+          <>{user?.email}</>
+        )}
         <Col
           style={{
             fontSize: "20px",
@@ -209,7 +215,12 @@ function AdminPage() {
       >
         <Col span={24}>Audit Log</Col>
         <Col span={24}>
-          <Link to="/CreateDocuments" state={{ userId: user?.uid }}>
+          <Link
+            to={{
+              pathname: "/CreateDocuments",
+              state: { userId: location.state ? location.state : user?.user },
+            }}
+          >
             Create Document
           </Link>
         </Col>
