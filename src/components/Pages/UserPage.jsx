@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAuth } from "../../context/UserAuthContext";
 import {
   getCreatedDocuments,
@@ -19,14 +19,20 @@ function UserPage() {
   const [userData, setUserData] = useState("");
   const [userDataEmail, setUserDataEmail] = useState("");
 
+  const location = useLocation();
+  const { userCMUObject } = location.state;
+
+  console.log("Users:", userCMUObject)
+
   const handleLogout = async () => {
     try {
       if (userData) {
         await deleteUserByEmail(userData[0]?.email);
+        navigate("/");
       } else {
         await logOut();
+        navigate("/");
       }
-      navigate("/");
     } catch (err) {
       console.error(err.message);
     }
@@ -78,8 +84,6 @@ function UserPage() {
 
     fetchData();
   }, []);
-
-  console.log("selectedType:", selectedType);
 
   const handleSignDocument = async () => {
     if (selectedType) {

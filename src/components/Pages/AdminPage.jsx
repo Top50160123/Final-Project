@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useUserAuth } from "../../context/UserAuthContext";
 import { getSignedDocument, getUrl } from "../../firebase";
 import { Button, Card, Col, Divider, Row } from "antd";
@@ -8,6 +8,10 @@ function AdminPage() {
   const { logOut, user } = useUserAuth();
   const [signedDocuments, setSignedDocuments] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { userCMUObject } = location.state;
+
+  console.log("admin:", userCMUObject)
 
   const handleLogout = async () => {
     try {
@@ -17,6 +21,30 @@ function AdminPage() {
       console.log(err.message);
     }
   };
+
+   // Function to logout after 1 minute of inactivity
+   let inactivityTimeout;
+   const setInactivityTimeout = () => {
+     inactivityTimeout = setTimeout(async () => {
+       await logOut();
+       navigate("/");
+     }, 60000); 
+   };
+ 
+   const resetInactivityTimeout = () => {
+     clearTimeout(inactivityTimeout);
+     setInactivityTimeout();
+   };
+ 
+   useEffect(() => {
+     setInactivityTimeout();
+     window.addEventListener("mousemove", resetInactivityTimeout);
+ 
+     return () => {
+       clearTimeout(inactivityTimeout);
+       window.removeEventListener("mousemove", resetInactivityTimeout);
+     };
+   }, []);
 
   useEffect(() => {
     const fetchSignedDocuments = async () => {

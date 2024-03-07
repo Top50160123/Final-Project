@@ -31,7 +31,6 @@ const CallbackPage = () => {
 
             const result = await response.json();
             setAccessToken(result.access_token);
-            console.log("result :", result.access_token);
           } catch (error) {
             console.error("Wrong to Sign", error.message || "Wrong to Sign");
           }
@@ -41,8 +40,6 @@ const CallbackPage = () => {
 
     fetchData();
   }, [location]);
-
-  console.log("accessToken", accessToken);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -69,8 +66,6 @@ const CallbackPage = () => {
     fetchUserData();
   }, [accessToken]);
 
-  console.log("userCmu", userCmu);
-
   useEffect(() => {
     const updateUserCmu = async () => {
       try {
@@ -81,8 +76,8 @@ const CallbackPage = () => {
             studentId: userCmu.student_id,
             email: userCmu.cmuitaccount,
           };
-          await userCMU(userCMUObject);
-          navigate("/DocumentDownload");
+          // await userCMU(userCMUObject);
+          navigate("/DocumentDownload", { state: userCMUObject });
         }
       } catch (error) {
         console.error("Error updating user data:", error);
@@ -92,7 +87,7 @@ const CallbackPage = () => {
     updateUserCmu();
   }, [navigate, userCmu]);
 
-  return null;
+  return <>loading...</>;
 };
 
 export default CallbackPage;

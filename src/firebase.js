@@ -15,6 +15,7 @@ import {
   serverTimestamp,
   onSnapshot,
   where,
+  query,
 } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -89,21 +90,22 @@ async function getUserCMU() {
 
 // deleteUserByEmail CMU
 async function deleteUserByEmail(email) {
-  try {
-    const querySnapshot = await getDocs(
-      query(collection(db, "usersCMU"), where("email", "==", email))
-    );
-    const batch = writeBatch(db);
+  console.log("email:", email);
+  // try {
+  //   const querySnapshot = await getDocs(
+  //     query(collection(db, "usersCMU"), where("email", "==", email))
+  //   );
+  //   const batch = writeBatch(db);
 
-    querySnapshot.forEach((doc) => {
-      batch.delete(doc.ref);
-    });
+  //   querySnapshot.forEach((doc) => {
+  //     batch.delete(doc.ref);
+  //   });
 
-    await batch.commit();
-    console.log("Documents with email", email, "successfully deleted.");
-  } catch (error) {
-    console.error("Error deleting documents: ", error);
-  }
+  //   await batch.commit();
+  //   console.log("Documents with email", email, "successfully deleted.");
+  // } catch (error) {
+  //   console.error("Error deleting documents: ", error);
+  // }
 }
 
 // Audit Log

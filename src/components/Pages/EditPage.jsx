@@ -86,6 +86,8 @@ const DocumentDetail = () => {
     }
   };
 
+  console.log("qr", qr);
+
   const handleConfirmQr = async ({ user, fileName, date, url, action }) => {
     try {
       rejectPDF({
@@ -95,18 +97,22 @@ const DocumentDetail = () => {
         url: url,
         action: action,
       });
-      const response = await fetch(`https://server-node-tau.vercel.app/api/verify-otp`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          otp: qr,
-          secret: secretKey,
-        }),
-      });
+      const response = await fetch(
+        `http://localhost:5004/api/verify-otp`,
+        // `https://server-node-tau.vercel.app/api/verify-otp`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            otp: qr,
+            secret: secretKey,
+          }),
+        }
+      );
       const data = await response.json();
-      console.log("confirm to sign",data);
+      console.log("confirm to sign", data);
     } catch (error) {
       console.error("Error confirming QR:", error);
     }
@@ -114,7 +120,10 @@ const DocumentDetail = () => {
 
   const fetchSecretKey = async () => {
     try {
-      const response = await fetch(`https://server-node-tau.vercel.app/api/get-secret-key`);
+      const response = await fetch(
+        `http://localhost:5004/api/get-secret-key`
+        // `hhttps://server-node-tau.vercel.app/api/get-secret-key`
+      );
       const data = await response.json();
       const secretKey = data.secretKey;
       setSecretKey(secretKey);
@@ -131,7 +140,8 @@ const DocumentDetail = () => {
     const fetchQrCodeUrl = async () => {
       try {
         const response = await fetch(
-          `https://server-node-tau.vercel.app/api/generate-otp-and-qrcode`,
+          `http://localhost:5004/api/generate-otp-and-qrcode`,
+          // `https://server-node-tau.vercel.app/api/generate-otp-and-qrcode`,
           {
             method: "POST",
             headers: {
