@@ -21,6 +21,8 @@ function UserPage() {
   const [userData, setUserData] = useState("");
   const [userDataEmail, setUserDataEmail] = useState("");
 
+  console.log("1", location.state);
+
   const handleLogout = async () => {
     try {
       if (userData) {
