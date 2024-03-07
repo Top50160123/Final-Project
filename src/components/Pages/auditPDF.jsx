@@ -17,7 +17,7 @@ const AuditPDF = () => {
     },
     {
       title: "Timestamp",
-      dataIndex: "",
+      dataIndex: "timestamp",
     },
     {
       title: "Action",
@@ -72,7 +72,7 @@ const AuditPDF = () => {
               action: document.data.action,
             }))}
             columns={columns}
-          />{" "}
+          />
         </Row>
       </div>
     </div>
