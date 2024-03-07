@@ -87,16 +87,17 @@ function UserPage() {
       try {
         const CMUUid = uuidv4();
         if (location.state) {
-          console.log("CMU");
-          console.log("2", location.state ? location.state.name : null);
-          // await SignDoc(
-          //   userDataEmail,
-          //   CMUUid,
-          //   selectedType,
-          //   fileName,
-          //   content,
-          //   url
-          // );
+          await SignDoc(
+            location.state.email,
+            selectedType,
+            pdfData.find((doc) => doc.data.fileName === selectedType)?.data.url
+          );
+          await addAction(
+            location.state.email,
+            "request",
+            selectedType,
+            pdfData.find((doc) => doc.data.fileName === selectedType)?.data.url
+          );
         } else {
           await SignDoc(
             user?.email,
