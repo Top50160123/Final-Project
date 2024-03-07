@@ -77,7 +77,7 @@ const CallbackPage = () => {
               studentId: userCmu.student_id,
               email: userCmu.cmuitaccount,
             };
-            navigate("/DocumentDownload", { state: userCMUObject });
+            navigate("/Documents", { state: userCMUObject });
           } else {
             const userCMUObject = {
               name: userCmu.firstname_TH,
