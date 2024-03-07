@@ -119,7 +119,7 @@ function UserPage() {
   return (
     <div>
       <h2>Welcome</h2>
-      {userCMUObject.name} Test
+      {userCMUObject} Test
       {userData ? (
         <>
           {userData.map((s) => (
