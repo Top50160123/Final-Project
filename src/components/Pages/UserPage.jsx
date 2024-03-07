@@ -86,7 +86,7 @@ function UserPage() {
     if (selectedType) {
       try {
         const CMUUid = uuidv4();
-        if (userData) {
+        if (location.state) {
           console.log("CMU");
           console.log("2", location.state ? location.state.name : null);
           // await SignDoc(
