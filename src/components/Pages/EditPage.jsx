@@ -106,7 +106,7 @@ const DocumentDetail = () => {
         }),
       });
       const data = await response.json();
-      console.log(data);
+      console.log("confirm to sign",data);
     } catch (error) {
       console.error("Error confirming QR:", error);
     }
