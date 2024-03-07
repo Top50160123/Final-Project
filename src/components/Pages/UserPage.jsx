@@ -120,38 +120,18 @@ function UserPage() {
   return (
     <div>
       <h2>Welcome</h2>
-      {location.state && (
+      {location.state ? (
         <>
-          <div>
-            Name: {location.state.name}
-          </div>
-          <div>
-            Last Name: {location.state.lastName}
-          </div>
-          <div>
-            Student ID: {location.state.studentId}
-          </div>
-          <div>
-            Email: {location.state.email}
-          </div>
-        </>
-      )} test
-      {userData ? (
-        <>
-          {userData.map((s) => (
-            <div key={s.id}>
-              {s.name} {s.lastName} : {s.studentId}
-            </div>
-          ))}
+          <div>Name: {location.state.name}</div>
+          <div>Last Name: {location.state.lastName}</div>
+          <div>Student ID: {location.state.studentId}</div>
         </>
       ) : (
         <>{user?.email}</>
       )}
-
       <button onClick={handleLogout} variant="danger">
         Logout
       </button>
-
       <div>
         <h3>PDF Data</h3>
         <label>Select Type:</label>

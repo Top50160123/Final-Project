@@ -70,14 +70,23 @@ const CallbackPage = () => {
     const updateUserCmu = async () => {
       try {
         if (userCmu) {
-          const userCMUObject = {
-            name: userCmu.firstname_TH,
-            lastName: userCmu.lastname_TH,
-            studentId: userCmu.student_id,
-            email: userCmu.cmuitaccount,
-          };
-          // await userCMU(userCMUObject);
-          navigate("/DocumentDownload", { state: userCMUObject });
+          if (userCmu.student_id === "630615024") {
+            const userCMUObject = {
+              name: userCmu.firstname_TH,
+              lastName: userCmu.lastname_TH,
+              studentId: userCmu.student_id,
+              email: userCmu.cmuitaccount,
+            };
+            navigate("/DocumentDownload", { state: userCMUObject });
+          } else {
+            const userCMUObject = {
+              name: userCmu.firstname_TH,
+              lastName: userCmu.lastname_TH,
+              studentId: userCmu.student_id,
+              email: userCmu.cmuitaccount,
+            };
+            navigate("/DocumentDownload", { state: userCMUObject });
+          }
         }
       } catch (error) {
         console.error("Error updating user data:", error);
