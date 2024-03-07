@@ -59,6 +59,8 @@ function UserPage() {
     fetchData();
   }, []);
 
+  console.log("urlSign", urlSign);
+
   // useEffect(() => {
   //   const fetchData = async () => {
   //     try {
