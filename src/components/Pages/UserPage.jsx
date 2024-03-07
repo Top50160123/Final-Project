@@ -120,7 +120,22 @@ function UserPage() {
   return (
     <div>
       <h2>Welcome</h2>
-      {userCMUObject && <>{userCMUObject} Test</>}
+      {location.state && (
+        <>
+          <div>
+            Name: {location.state.name}
+          </div>
+          <div>
+            Last Name: {location.state.lastName}
+          </div>
+          <div>
+            Student ID: {location.state.studentId}
+          </div>
+          <div>
+            Email: {location.state.email}
+          </div>
+        </>
+      )} test
       {userData ? (
         <>
           {userData.map((s) => (
