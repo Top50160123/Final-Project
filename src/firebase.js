@@ -81,6 +81,25 @@ async function getUserCMU() {
   }
 }
 
+// deleteUserByEmail CMU
+async function deleteUserByEmail(email) {
+  try {
+    const querySnapshot = await getDocs(
+      query(collection(db, "usersCMU"), where("email", "==", email))
+    );
+    const batch = writeBatch(db);
+
+    querySnapshot.forEach((doc) => {
+      batch.delete(doc.ref);
+    });
+
+    await batch.commit();
+    console.log("Documents with email", email, "successfully deleted.");
+  } catch (error) {
+    console.error("Error deleting documents: ", error);
+  }
+}
+
 // Audit Log
 async function addAction(admin, action, fileName, Url) {
   const pdfData = {
@@ -247,12 +266,12 @@ const getAllSignData = async () => {
   const querySnapshot = await getDocs(signCollectionRef);
 
   const allSignData = [];
-  querySnapshot.forEach(doc => {
+  querySnapshot.forEach((doc) => {
     const userData = doc.data();
     const files = userData.files;
 
-    const userSignInfo = Object.values(files).map(file => ({
-      user: doc.id, 
+    const userSignInfo = Object.values(files).map((file) => ({
+      user: doc.id,
       action: file.action,
       date: file.date,
     }));
@@ -260,7 +279,7 @@ const getAllSignData = async () => {
     allSignData.push(...userSignInfo);
   });
 
-  return allSignData; 
+  return allSignData;
 };
 
 export {
@@ -280,5 +299,6 @@ export {
   UrlSign,
   getUrl,
   getAllSignData,
+  deleteUserByEmail,
 };
 export default app;

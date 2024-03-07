@@ -6,6 +6,7 @@ import {
   SignDoc,
   getUrl,
   addAction,
+  deleteUserByEmail,
 } from "../../firebase";
 import { getUserCMU } from "../../firebase";
 import { v4 as uuidv4 } from "uuid";
@@ -20,7 +21,12 @@ function UserPage() {
 
   const handleLogout = async () => {
     try {
-      await logOut();
+      if (userData) {
+        console.log("CMU", userData.email);
+        // deleteUserByEmail(userData.email)
+      } else {
+        await logOut();
+      }
       navigate("/");
     } catch (err) {
       console.error(err.message);
