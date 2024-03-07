@@ -233,17 +233,33 @@ async function UrlSign(user, fileName, date, url, action) {
   const docSnapshot = await getDoc(userSignDocRef);
   if (docSnapshot.exists()) {
     const data = docSnapshot.data();
-    const newFileName = `fileName${Object.keys(data.files).length + 1}`;
-    const newData = {
-      ...data,
-      files: {
-        ...data.files,
-        [newFileName]: { fileName, url, date, action },
-      },
-    };
-    await setDoc(userSignDocRef, newData);
+    const existingFile = Object.entries(data.files).find(([key, value]) => value.fileName === fileName);
 
-    return newData;
+    if (existingFile) {
+      const existingFileName = existingFile[0];
+      const updatedFiles = {
+        ...data.files,
+        [existingFileName]: { fileName, url, date, action },
+      };
+      const newData = {
+        ...data,
+        files: updatedFiles,
+      };
+      await setDoc(userSignDocRef, newData);
+      return newData;
+    } else {
+      // Add a new file
+      const newFileName = `fileName${Object.keys(data.files).length + 1}`;
+      const newData = {
+        ...data,
+        files: {
+          ...data.files,
+          [newFileName]: { fileName, url, date, action },
+        },
+      };
+      await setDoc(userSignDocRef, newData);
+      return newData;
+    }
   } else {
     const signDoc = {
       files: {
@@ -255,16 +271,46 @@ async function UrlSign(user, fileName, date, url, action) {
   }
 }
 
+
+// async function UrlSign(user, fileName, date, url, action) {
+//   const signCollectionRef = collection(db, "signUrl");
+//   const userSignDocRef = doc(signCollectionRef, user);
+
+//   const docSnapshot = await getDoc(userSignDocRef);
+//   if (docSnapshot.exists()) {
+//     const data = docSnapshot.data();
+//     const newFileName = `fileName${Object.keys(data.files).length + 1}`;
+//     const newData = {
+//       ...data,
+//       files: {
+//         ...data.files,
+//         [newFileName]: { fileName, url, date, action },
+//       },
+//     };
+//     await setDoc(userSignDocRef, newData);
+
+//     return newData;
+//   } else {
+//     const signDoc = {
+//       files: {
+//         fileName1: { fileName, url, date, action },
+//       },
+//     };
+//     await setDoc(userSignDocRef, signDoc);
+//     return signDoc;
+//   }
+// }
+
 async function getUrl(user) {
   const signCollectionRef = collection(db, "signUrl");
   const userSignDocRef = doc(signCollectionRef, user);
-  const docSnapshot = await getDoc(userSignDocRef);
 
+  const docSnapshot = await getDoc(userSignDocRef);
   if (docSnapshot.exists()) {
-    const userData = docSnapshot.data();
-    const files = userData.files;
-    return files;
+    const data = docSnapshot.data();
+    return data;
   } else {
+    console.log("Document does not exist");
     return null;
   }
 }

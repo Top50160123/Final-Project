@@ -79,8 +79,11 @@ const DocumentDetail = () => {
 
   const rejectPDF = async ({ user, fileName, date, url, action }) => {
     try {
-      await addAction("admin", action, fileName, url);
-      await UrlSign(user, fileName, date, url, action);
+      // console.log("url", url);
+      console.log("fileName", fileName.type);
+      console.log("action", action);
+      await addAction("admin", action, fileName.type, url);
+      await UrlSign(user, fileName.type, date, url, action);
     } catch (error) {
       console.error(error);
     }
@@ -97,22 +100,22 @@ const DocumentDetail = () => {
         url: url,
         action: action,
       });
-      const response = await fetch(
-        `http://localhost:5004/api/verify-otp`,
-        // `https://server-node-tau.vercel.app/api/verify-otp`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            otp: qr,
-            secret: secretKey,
-          }),
-        }
-      );
-      const data = await response.json();
-      console.log("confirm to sign", data);
+      // const response = await fetch(
+      //   `http://localhost:5004/api/verify-otp`,
+      //   // `https://server-node-tau.vercel.app/api/verify-otp`,
+      //   {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify({
+      //       otp: qr,
+      //       secret: secretKey,
+      //     }),
+      //   }
+      // );
+      // const data = await response.json();
+      // console.log("confirm to sign", data);
     } catch (error) {
       console.error("Error confirming QR:", error);
     }
@@ -167,14 +170,14 @@ const DocumentDetail = () => {
         <p>User: {user}</p>
         <p>Type: {fileName.type}</p>
         <p>Date: {timestampDate.toLocaleString()}</p>
-        <a href={fileName.Url[0]}>asdasd</a>
+        {/* <a href={fileName.Url[0]}>asdasd</a> */}
         <button
           onClick={() =>
             rejectPDF({
               user: user,
               fileName: fileName,
               date: timestampDate.toLocaleString(),
-              url: "",
+              url: fileName.Url[0],
               action: "reject",
             })
           }
@@ -182,9 +185,18 @@ const DocumentDetail = () => {
           Reject
         </button>
         <button
-          onClick={() => {
-            setOpenQr(true);
-          }}
+          onClick={() =>
+            handleConfirmQr({
+              user: user,
+              fileName: fileName,
+              date: timestampDate.toLocaleString(),
+              url: fileName.Url[0],
+              action: "sign",
+            })
+          }
+          // onClick={() => {
+          //   setOpenQr(true);
+          // }}
         >
           Sign
         </button>

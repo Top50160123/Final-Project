@@ -73,6 +73,22 @@ function AdminPage() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if(signedDocuments){
+      // console.log("signedDocuments",signedDocuments[0].email)
+    }
+    // const fetchData = async () => {
+    //   try {
+    //     const documentUrl = await getAllSignData(document.email);
+    //     console.log("documentUrl", documentUrl);
+    //   } catch (error) {
+    //     console.error("Error fetching PDF data:", error);
+    //   }
+    // };
+
+    // fetchData();
+  }, [signedDocuments]);
+
   return (
     <div>
       {/* <div>
@@ -193,7 +209,7 @@ function AdminPage() {
                     <Row justify={"center"}>
                       <Button
                         onClick={() =>
-                          handleDetail(document.files[fileName], document.email, location.state.studentId)
+                          handleDetail(document.files[fileName], document.email)
                         }
                       >
                         Document Detail
@@ -218,7 +234,6 @@ function AdminPage() {
           <Link
             to={{
               pathname: "/CreateDocuments",
-
             }}
           >
             Create Document

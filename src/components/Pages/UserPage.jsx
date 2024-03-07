@@ -8,7 +8,7 @@ import {
   addAction,
   deleteUserByEmail,
 } from "../../firebase";
-import { getUserCMU } from "../../firebase";
+// import { getUserCMU } from "../../firebase";
 import { v4 as uuidv4 } from "uuid";
 
 function UserPage() {
@@ -38,12 +38,13 @@ function UserPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (user?.email) {
-          const documentUrl = await getUrl(user.email);
+        if (location.state) {
+          console.log("CMU", location.state.email);
+          const documentUrl = await getUrl(location.state.email);
           console.log("documentUrl", documentUrl);
         } else {
-          const documentUrl = await getUrl(userDataEmail);
-          console.log("documentUrl", documentUrl);
+          // const documentUrl = await getUrl(userDataEmail);
+          // console.log("documentUrl", documentUrl);
         }
       } catch (error) {
         console.error("Error fetching PDF data:", error);
@@ -58,7 +59,6 @@ function UserPage() {
       try {
         const documents = await getCreatedDocuments();
         setPdfData(documents);
-        console.log("documents:", documents);
       } catch (error) {
         console.error("Error fetching PDF data:", error);
       }
@@ -67,20 +67,20 @@ function UserPage() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getUserCMU();
-        console.log(data);
-        setUserDataEmail(data[0].email);
-        setUserData(data);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const data = await getUserCMU();
+  //       console.log(data);
+  //       setUserDataEmail(data[0].email);
+  //       setUserData(data);
+  //     } catch (error) {
+  //       console.error("Error fetching user data:", error);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   const handleSignDocument = async () => {
     if (selectedType) {
