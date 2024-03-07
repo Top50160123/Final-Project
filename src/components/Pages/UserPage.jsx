@@ -149,13 +149,17 @@ function UserPage() {
 
         <div>
           {urlSign &&
-            urlSign.map((file, index) => (
-              <div key={index}>
-                <div>File Name: {file.fileName}</div>
-                <div>Action: {file.action}</div>
-                <div>Date: {file.date}</div>
+            Object.keys(urlSign).map((key) => (
+              <div key={key}>
+                <div>File Name: {urlSign[key].fileName}</div>
+                <div>Action: {urlSign[key].action}</div>
+                <div>Date: {urlSign[key].date}</div>
                 <div>
-                  <a href={file.url} target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={urlSign[key].url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     View Document
                   </a>
                 </div>
