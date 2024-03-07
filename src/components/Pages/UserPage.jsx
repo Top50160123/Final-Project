@@ -18,6 +18,7 @@ function UserPage() {
   const [pdfData, setPdfData] = useState([]);
   const [selectedType, setSelectedType] = useState("");
   const [urlSign, setUrlSign] = useState("");
+  const [urlSignEmail, setUrlSignEmail] = useState("");
   const handleLogout = async () => {
     try {
       await logOut();
@@ -35,8 +36,8 @@ function UserPage() {
           const documentUrl = await getUrl(location.state.email);
           setUrlSign(documentUrl);
         } else {
-          // const documentUrl = await getUrl(userDataEmail);
-          // console.log("documentUrl", documentUrl);
+          const documentUrl = await getUrl(user?.email);
+          setUrlSignEmail(documentUrl);
         }
       } catch (error) {
         console.error("Error fetching PDF data:", error);
@@ -155,7 +156,14 @@ function UserPage() {
             Object.keys(urlSign.files).map((key) => (
               <div key={key}>
                 <div>File Name: {urlSign.files[key].fileName}</div>
-                <div>Action: {urlSign.files[key].action}</div>
+                <div>
+                  Action:
+                  {urlSign.files[key].action === "reject" ? (
+                    <div>ไม่อนุญาตให้ download </div>
+                  ) : (
+                    <div>อนุญาตให้ Download</div>
+                  )}
+                </div>
                 <div>Date: {urlSign.files[key].date}</div>
                 <div>
                   <a
@@ -163,12 +171,13 @@ function UserPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    View Document
+                    Download
                   </a>
                 </div>
               </div>
             ))}
         </div>
+        <div>{urlSignEmail}</div>
       </div>
     </div>
   );
