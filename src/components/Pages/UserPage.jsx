@@ -15,21 +15,13 @@ function UserPage() {
   const { logOut, user } = useUserAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const { userCMUObject } = location.state;
   const [pdfData, setPdfData] = useState([]);
   const [selectedType, setSelectedType] = useState("");
-  const [userData, setUserData] = useState("");
-  const [userDataEmail, setUserDataEmail] = useState("");
-
+  const [urlSign, setUrlSign] = useState("");
   const handleLogout = async () => {
     try {
-      if (userData) {
-        await deleteUserByEmail(userData[0]?.email);
-        navigate("/");
-      } else {
-        await logOut();
-        navigate("/");
-      }
+      await logOut();
+      navigate("/");
     } catch (err) {
       console.error(err.message);
     }
@@ -41,7 +33,7 @@ function UserPage() {
         if (location.state) {
           console.log("CMU", location.state.email);
           const documentUrl = await getUrl(location.state.email);
-          console.log("documentUrl", documentUrl);
+          setUrlSign(documentUrl);
         } else {
           // const documentUrl = await getUrl(userDataEmail);
           // console.log("documentUrl", documentUrl);
@@ -52,7 +44,7 @@ function UserPage() {
     };
 
     fetchData();
-  }, [user?.email, userDataEmail]);
+  }, [user?.email]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -154,6 +146,22 @@ function UserPage() {
             <button onClick={handleSignDocument}>Confirm Sign</button>
           </div>
         )}
+
+        <div>
+          {urlSign &&
+            urlSign.map((file, index) => (
+              <div key={index}>
+                <div>File Name: {file.fileName}</div>
+                <div>Action: {file.action}</div>
+                <div>Date: {file.date}</div>
+                <div>
+                  <a href={file.url} target="_blank" rel="noopener noreferrer">
+                    View Document
+                  </a>
+                </div>
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   );
