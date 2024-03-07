@@ -47,7 +47,12 @@ async function checkAdmin(data, uid) {
 }
 
 async function userCMU(data) {
-  const userDataWithUID = data;
+  const userDataWithUID = {
+    email: data.email,
+    lastName: data.lastName,
+    name: data.name,
+    studentId: data.studentId,
+  };
   await addDoc(collection(db, "usersCMU"), userDataWithUID);
 }
 
