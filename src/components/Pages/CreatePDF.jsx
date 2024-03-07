@@ -5,7 +5,7 @@ import { createPdf, addAction } from "../../firebase";
 const CreatePDF = () => {
   const [userInput, setUserInput] = useState("");
   const [fileName, setFileName] = useState("");
-  const location = useLocation();
+  // const location = useLocation();
   const handleInputChange = (e) => {
     setUserInput(e.target.value);
   };
@@ -42,7 +42,7 @@ const CreatePDF = () => {
   return (
     <div>
       <h1>Create Document</h1>
-      {location.state && <>{location.state.userId.Name}</>}
+      {/* {location.state && <>{location.state.userId.Name}</>} */}
       <form onSubmit={(e) => e.preventDefault()}>
         <label>
           File Name:

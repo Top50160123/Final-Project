@@ -218,7 +218,6 @@ function AdminPage() {
           <Link
             to={{
               pathname: "/CreateDocuments",
-              state: { userId: location.state ? user?.user : location.state.name },
             }}
           >
             Create Document
