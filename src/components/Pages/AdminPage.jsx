@@ -74,7 +74,7 @@ function AdminPage() {
   }, []);
 
   useEffect(() => {
-    if(signedDocuments){
+    if (signedDocuments) {
       // console.log("signedDocuments",signedDocuments[0].email)
     }
     // const fetchData = async () => {
@@ -94,7 +94,7 @@ function AdminPage() {
       {/* <div>
         <h2>Audit log page</h2>
         <p>{user?.email}</p>
-        <button onClick={handleLogout}>Logout</button>
+        
       </div>
       <div>
         <Link to="/CreateDocuments" state={{ userId: user?.uid }}>
@@ -145,12 +145,19 @@ function AdminPage() {
             <div>Student ID: {location.state.studentId}</div>
           </>
         ) : (
-          <>{user?.email}</>
+          <Row justify={"center"}>
+            <Col span={24}>{user?.email}</Col>
+            <Col span={24}>
+              <button onClick={handleLogout}>Logout</button>
+            </Col>
+          </Row>
         )}
         <Col
           style={{
             fontSize: "20px",
+            marginTop: "10px",
           }}
+          span={24}
         >
           Document Request
         </Col>

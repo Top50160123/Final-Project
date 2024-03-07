@@ -6,6 +6,8 @@ import {
   UrlSign,
   addAction,
 } from "../../firebase";
+import { Button, Card, Col, Row, Typography } from "antd";
+const { Title, Text } = Typography;
 
 const DocumentDetail = () => {
   const location = useLocation();
@@ -166,11 +168,11 @@ const DocumentDetail = () => {
   return (
     <>
       <div>
-        <h1>Detail Page</h1>
+        {/* <h1>Detail Page</h1>
         <p>User: {user}</p>
         <p>Type: {fileName.type}</p>
         <p>Date: {timestampDate.toLocaleString()}</p>
-        {/* <a href={fileName.Url[0]}>asdasd</a> */}
+         <a href={fileName.Url[0]}>asdasd</a> 
         <button
           onClick={() =>
             rejectPDF({
@@ -239,7 +241,155 @@ const DocumentDetail = () => {
               Delete
             </button>
           </>
-        )}
+        )} */}
+      </div>
+      <div>
+        <Row justify={"center"}>
+          <Col span={24}>
+            <Card>
+              <Row>
+                <Col span={24}>
+                  <Title
+                    level={3}
+                    style={{
+                      color: "#000",
+                      textAlign: "center",
+                    }}
+                  >
+                    Document Detail Page
+                  </Title>
+                </Col>
+                <Col
+                  span={24}
+                  style={{
+                    marginTop: "10px",
+                  }}
+                >
+                  User : {user}
+                </Col>
+                <Col
+                  span={24}
+                  style={{
+                    marginTop: "10px",
+                  }}
+                >
+                  Type : {fileName.type}
+                </Col>
+                <Col
+                  span={24}
+                  style={{
+                    marginTop: "10px",
+                  }}
+                >
+                  Date: {timestampDate.toLocaleString()}
+                </Col>
+                <Col
+                  span={24}
+                  style={{
+                    marginTop: "10px",
+                  }}
+                >
+                  <Button
+                    style={{
+                      marginRight: "10px",
+                    }}
+                    onClick={() =>
+                      rejectPDF({
+                        user: user,
+                        fileName: fileName,
+                        date: timestampDate.toLocaleString(),
+                        url: fileName.Url[0],
+                        action: "reject",
+                      })
+                    }
+                  >
+                    Reject
+                  </Button>
+                  <Button
+                    style={{
+                      marginRight: "10px",
+                    }}
+                    onClick={() =>
+                      handleConfirmQr({
+                        user: user,
+                        fileName: fileName,
+                        date: timestampDate.toLocaleString(),
+                        url: fileName.Url[0],
+                        action: "sign",
+                      })
+                    }
+                    // onClick={() => {
+                    //   setOpenQr(true);
+                    // }}
+                  >
+                    Sign
+                  </Button>
+                  {openQr ? (
+                    <>
+                      {qrCodeUrl && <img src={qrCodeUrl} />}
+                      <input
+                        value={qr}
+                        onChange={(e) => setQr(e.target.value)}
+                      />
+                      <Button
+                        style={{
+                          marginRight: "10px",
+                        }}
+                        onClick={() =>
+                          handleConfirmQr({
+                            user: user,
+                            fileName: fileName,
+                            date: timestampDate.toLocaleString(),
+                            url: fileName.Url[0],
+                            action: "sign",
+                          })
+                        }
+                      >
+                        Confirm to sign
+                      </Button>
+                    </>
+                  ) : null}
+                  <Button
+                    style={{
+                      marginRight: "10px",
+                    }}
+                    onClick={() => handleDelete(fileName.type, fileName.Url[0])}
+                  >
+                    Edit
+                  </Button>
+                  {cmuId === "630615045" ? (
+                    <>
+                      <Button
+                        style={{
+                          marginRight: "10px",
+                        }}
+                        onClick={() =>
+                          handleDeletes(fileName.type, fileName.Url[0])
+                        }
+                        disabled
+                      >
+                        Delete
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        style={{
+                          marginRight: "10px",
+                        }}
+                        onClick={() =>
+                          handleDeletes(fileName.type, fileName.Url[0])
+                        }
+                      >
+                        Delete
+                      </Button>
+                    </>
+                  )}
+                </Col>
+              </Row>
+            </Card>
+          </Col>
+        </Row>
       </div>
     </>
   );

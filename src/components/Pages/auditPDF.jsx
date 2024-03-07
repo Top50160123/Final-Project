@@ -47,7 +47,7 @@ const AuditPDF = () => {
 
       <div>
         <h2>Document List:</h2>
-        <ul>
+        {/* <ul>
           {documents &&
             documents.map((d) => (
               <div key={d.id}>
@@ -55,15 +55,17 @@ const AuditPDF = () => {
                   <>
                     <p>FileName: {d.data.fileName}</p>
                     <p>Admin: {d.data.admin}</p>
-                    <p>Timestamp: {d.data.timestamp.toDate().toLocaleString()}</p>
+                    <p>
+                      Timestamp: {d.data.timestamp.toDate().toLocaleString()}
+                    </p>
                     <p>Action: {d.data.action}</p>
                   </>
                 )}
               </div>
             ))}
-        </ul>
+        </ul> */}
       </div>
-      {/* <div>
+      <div>
         <Row justify={"center"}>
           <Table
             dataSource={documents.map((document) => ({
@@ -78,7 +80,7 @@ const AuditPDF = () => {
             columns={columns}
           />
         </Row>
-      </div> */}
+      </div>
     </div>
   );
 };
