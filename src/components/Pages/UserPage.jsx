@@ -22,7 +22,7 @@ function UserPage() {
   const handleLogout = async () => {
     try {
       if (userData) {
-        console.log("CMU", userData.email);
+        console.log("CMU", userData[0]?.email);
         // deleteUserByEmail(userData.email)
       } else {
         await logOut();
