@@ -119,7 +119,7 @@ function UserPage() {
   return (
     <div>
       <h2>Welcome</h2>
-      {userCMUObject} Test
+      {userCMUObject && <>{userCMUObject} Test</>}
       {userData ? (
         <>
           {userData.map((s) => (
