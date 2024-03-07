@@ -71,7 +71,7 @@ const CallbackPage = () => {
       try {
         if (userCmu) {
           if (
-            userCmu.student_id === "630615024" ||
+            userCmu.student_id === "630615023" ||
             userCmu.student_id === "630615045" ||
             userCmu.organization_code === "52"
           ) {

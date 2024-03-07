@@ -21,8 +21,6 @@ function UserPage() {
   const [userData, setUserData] = useState("");
   const [userDataEmail, setUserDataEmail] = useState("");
 
-  console.log("1", location.state);
-
   const handleLogout = async () => {
     try {
       if (userData) {
@@ -90,6 +88,7 @@ function UserPage() {
         const CMUUid = uuidv4();
         if (userData) {
           console.log("CMU");
+          console.log("2", location.state ? location.state.name : null);
           // await SignDoc(
           //   userDataEmail,
           //   CMUUid,
