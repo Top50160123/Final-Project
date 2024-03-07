@@ -14,13 +14,12 @@ import { v4 as uuidv4 } from "uuid";
 function UserPage() {
   const { logOut, user } = useUserAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { userCMUObject } = location.state;
   const [pdfData, setPdfData] = useState([]);
   const [selectedType, setSelectedType] = useState("");
   const [userData, setUserData] = useState("");
   const [userDataEmail, setUserDataEmail] = useState("");
-
-  const location = useLocation();
-  const { userCMUObject } = location.state;
 
   const handleLogout = async () => {
     try {
