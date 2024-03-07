@@ -8,8 +8,8 @@ import {
   addAction,
   deleteUserByEmail,
 } from "../../firebase";
-// import { getUserCMU } from "../../firebase";
 import { v4 as uuidv4 } from "uuid";
+import { Button, Col, Row, Select, Table } from "antd";
 
 function UserPage() {
   const { logOut, user } = useUserAuth();
@@ -60,22 +60,7 @@ function UserPage() {
     fetchData();
   }, []);
 
-  console.log("urlSign", urlSignEmail);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const data = await getUserCMU();
-  //       console.log(data);
-  //       setUserDataEmail(data[0].email);
-  //       setUserData(data);
-  //     } catch (error) {
-  //       console.error("Error fetching user data:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
+  console.log("urlSignEmail", urlSignEmail);
 
   const handleSignDocument = async () => {
     if (selectedType) {
@@ -112,72 +97,108 @@ function UserPage() {
     }
   };
 
+  const columns = [
+    {
+      title: "File Name",
+      dataIndex: "fileName",
+      key: "fileName",
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
+      key: "action",
+      render: (text) =>
+        text === "reject" ? "ไม่อนุญาตให้ download" : "อนุญาตให้ Download",
+    },
+    {
+      title: "Date",
+      dataIndex: "date",
+      key: "date",
+    },
+    {
+      title: "Download",
+      dataIndex: "download",
+      key: "download",
+      render: (text, record) => (
+        <a href={record.url} target="_blank" rel="noopener noreferrer">
+          Download
+        </a>
+      ),
+    },
+  ];
+
+  const data = urlSignEmail.files
+    ? Object.keys(urlSignEmail.files).map((key) => ({
+        key,
+        fileName: urlSignEmail.files[key].fileName,
+        action: urlSignEmail.files[key].action,
+        date: urlSignEmail.files[key].date,
+        url: urlSignEmail.files[key].url,
+      }))
+    : [];
+
   return (
     <div>
       <h2>Welcome</h2>
       {location.state ? (
-        <>
+        <div>
           <div>Name: {location.state.name}</div>
           <div>Last Name: {location.state.lastName}</div>
           <div>Student ID: {location.state.studentId}</div>
-        </>
+        </div>
       ) : (
-        <>{user?.email}</>
+        <div>{user?.email}</div>
       )}
-      <button onClick={handleLogout} variant="danger">
-        Logout
-      </button>
+      <Button onClick={handleLogout} variant="danger">
+        LOGOUT
+      </Button>
       <div>
-        <h3>PDF Data</h3>
-        <label>Select Type:</label>
-        <select
-          value={selectedType}
-          onChange={(e) => {
-            setSelectedType(e.target.value);
+        <h3>Document Request</h3>
+        <Row
+          justify={"center"}
+          style={{
+            marginBottom: "10px",
           }}
         >
-          <option value="">Select Type</option>
-          {pdfData.map((d) => (
-            <option key={d.id} value={d.data.fileName}>
-              {d.data.fileName}
-            </option>
-          ))}
-        </select>
-
-        {selectedType && (
-          <div>
-            <button onClick={handleSignDocument}>Confirm Sign</button>
-          </div>
-        )}
+          <Col
+            style={{
+              marginRight: "10px",
+            }}
+          >
+            Select Type :{" "}
+          </Col>
+          <Select
+            value={selectedType}
+            onChange={(value) => {
+              setSelectedType(value);
+            }}
+          >
+            <Select.Option value="">Select Type</Select.Option>
+            {pdfData.map((d) => (
+              <Select.Option key={d.id} value={d.data.fileName}>
+                {d.data.fileName}
+              </Select.Option>
+            ))}
+          </Select>
+          {selectedType && (
+            <Col
+              span={24}
+              style={{
+                marginTop: "10px",
+                marginBottom: "10px",
+              }}
+            >
+              <Button onClick={handleSignDocument}>Request Document</Button>
+            </Col>
+          )}
+        </Row>
 
         <div>
-          {urlSign &&
-            urlSign.files &&
-            Object.keys(urlSign.files).map((key) => (
-              <div key={key}>
-                <div>File Name: {urlSign.files[key].fileName}</div>
-                <div>
-                  Action:
-                  {urlSign.files[key].action === "reject" ? (
-                    <div>ไม่อนุญาตให้ download </div>
-                  ) : (
-                    <div>อนุญาตให้ Download</div>
-                  )}
-                </div>
-                <div>Date: {urlSign.files[key].date}</div>
-                <div>
-                  <a
-                    href={urlSign.files[key].url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Download
-                  </a>
-                </div>
-              </div>
-            ))}
+          <Table columns={columns} dataSource={data} />
         </div>
-        <div>โชว์ ข้อมูล urlSignEmail ตรงนี้</div>
+        <div>
+          <Row justify={"center"}></Row>
+        </div>
       </div>
     </div>
   );
