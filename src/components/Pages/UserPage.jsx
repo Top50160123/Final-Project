@@ -22,8 +22,6 @@ function UserPage() {
   const location = useLocation();
   const { userCMUObject } = location.state;
 
-  console.log("Users:", userCMUObject)
-
   const handleLogout = async () => {
     try {
       if (userData) {
@@ -121,6 +119,7 @@ function UserPage() {
   return (
     <div>
       <h2>Welcome</h2>
+      {userCMUObject.name} Test
       {userData ? (
         <>
           {userData.map((s) => (
