@@ -1,39 +1,25 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { handleSubmit } from "../../functions/register";
-import { DataContext } from "../../context/OTContext";
-
 import { useUserAuth } from "../../context/UserAuthContext";
-import { checkAdmin } from "../../firebase";
-
-import { updateUser } from "../../firebase";
-import { Button, Card, Col, Input, Row, Typography } from "antd";
-import { MailFilled } from "@ant-design/icons";
+import { Button, Card, Col, Form, Input, Row, Typography } from "antd";
 
 const { Title, Text } = Typography;
 
-
 function Register() {
-  const { data, setData } = useContext(DataContext);
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [form] = Form.useForm();
   const [error, setError] = useState("");
   const { signUp } = useUserAuth();
   const navigate = useNavigate();
 
-  const handleSend = (e) => {
-    e.preventDefault();
-    handleSubmit(
-      e,
-      data.email,
-      password,
-      confirmPassword,
-      setError,
-      navigate,
-      signUp,
-      checkAdmin,
-      data
-    );
+  const handleSend = async (values) => {
+    try {
+      const { email, password } = values;
+      await signUp(email, password);
+      navigate("/login"); // Redirect to login page after successful registration
+    } catch (err) {
+      setError(err.message);
+      console.log(err);
+    }
   };
 
   return (
@@ -45,127 +31,96 @@ function Register() {
           }
         `}
       </style>
-      <form onSubmit={handleSend}>
-        <Row gutter={[8, 8]} justify={"center"}>
-          <Card
-            style={{
-              width: "1023px",
-              height: "700px",
-              marginTop: "100px",
-            }}
-          >
-            <Row gutter={[8, 16]} justify={"center"}>
-              <Col
-                span={24}
-                style={{
-                  marginTop: "100px",
-                }}
+      <Form
+        form={form}
+        onFinish={handleSend}
+        layout="vertical"
+        style={{ maxWidth: "600px", margin: "0 auto", marginTop: "100px" }}
+      >
+        <Card>
+          <Row gutter={[8, 16]} justify={"center"}>
+            <Col span={24}>
+              <Title level={2}>Sign Up</Title>
+            </Col>
+            {error && <p>{error}</p>}
+            <Col span={24}>
+              <Form.Item
+                name="email"
+                label="Email address"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your email address",
+                  },
+                  {
+                    type: "email",
+                    message: "Please enter a valid email address",
+                  },
+                ]}
               >
-                <Title
-                  level={2}
-                  style={{
-                    color: "var(--primary-500, #0277BD)",
-                    fontSize: "40px",
-                    fontWeight: "600",
-                  }}
-                >
-                  Sign Up
-                </Title>
-              </Col>
-              {error && <p>{error}</p>}
-              <Col span={15}>
-                <Input
-                  type="email"
-                  name="email"
-                  placeholder="Email address"
-                  value={data.email}
-                  onChange={setData}
-                  style={{
-                    backgroundColor: "#D9D9D9",
-                    width: "623px",
-                    height: "60px",
-                    borderRadius: "20px",
-                    fontSize: "24px",
-                    fontWeight: "600",
-                    lineHeight: "normal",
-                  }}
-                ></Input>
-              </Col>
-              <Col span={15}>
-                <Input
-                  name="password"
-                  type="password"
-                  id="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => {
-                    setData(e);
-                    setPassword(e.target.value);
-                  }}
-                  style={{
-                    backgroundColor: "#D9D9D9",
-                    width: "623px",
-                    height: "60px",
-                    borderRadius: "20px",
-                    fontSize: "24px",
-                    fontWeight: "600",
-                    lineHeight: "normal",
-                  }}
-                />
-              </Col>
-              <Col span={15}>
-                <Input
-                  type="password"
-                  id="confirmPassword"
-                  placeholder="Confirm Password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  style={{
-                    backgroundColor: "#D9D9D9",
-                    width: "623px",
-                    height: "60px",
-                    borderRadius: "20px",
-                    fontSize: "24px",
-                    fontWeight: "600",
-                    lineHeight: "normal",
-                  }}
-                />
-              </Col>
-              <Col span={24}>
-                <Button
-                  htmlType="submit"
-                  style={{
-                    backgroundColor: "#14B538",
-                    color: "white",
-                    width: "305px",
-                    height: "45px",
-                    borderRadius: "20px",
-                    fontSize: "18px",
-                    fontWeight: "600",
-                    marginTop: "60px",
-                  }}
-                >
-                  {" "}
-                  Create Account
-                </Button>
-              </Col>
-              <Col span={24}>
-                <Text
-                  style={{
-                    color: "#197AA4",
-                    fontSize: "20px",
-                  }}
-                >
-                  Already have an account?{" "}
-                  <Link to="/login" style={{ textDecorationLine: "underline" }}>
-                    Log in
-                  </Link>
-                </Text>
-              </Col>
-            </Row>
-          </Card>
-        </Row>
-      </form>
+                <Input placeholder="Email address" />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Form.Item
+                name="password"
+                label="Password"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your password",
+                  },
+                  {
+                    min: 6,
+                    message: "Password must be at least 6 characters long",
+                  },
+                  {
+                    pattern: /^[a-zA-Z0-9]+$/,
+                    message: "Password cannot contain special characters",
+                  },
+                ]}
+              >
+                <Input.Password placeholder="Password" />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Form.Item
+                name="confirmPassword"
+                label="Confirm Password"
+                dependencies={["password"]}
+                rules={[
+                  {
+                    required: true,
+                    message: "Please confirm your password",
+                  },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (!value || getFieldValue("password") === value) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(
+                        new Error("The two passwords do not match")
+                      );
+                    },
+                  }),
+                ]}
+              >
+                <Input.Password placeholder="Confirm Password" />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Button type="primary" htmlType="submit">
+                Create Account
+              </Button>
+            </Col>
+            <Col span={24}>
+              <Text>
+                Already have an account? <Link to="/login">Log in</Link>
+              </Text>
+            </Col>
+          </Row>
+        </Card>
+      </Form>
     </div>
   );
 }

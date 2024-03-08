@@ -26,7 +26,7 @@ function Login() {
         navigate("/DocumentDownload");
       }
     } catch (err) {
-      setError(err.message);
+      setError("Wrong password");
       console.log(err);
     }
   };
@@ -98,6 +98,7 @@ function Login() {
                     lineHeight: "normal",
                   }}
                 />
+                {error && <Text type="danger">{error}</Text>}
               </Col>
               <Col span={24}>
                 <Button
