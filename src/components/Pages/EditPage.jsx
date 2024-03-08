@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   deleteRelatedDocumentsByUrl,
   deleteDocumentsByUrl,
@@ -21,6 +21,7 @@ const DocumentDetail = () => {
   const [qrCodeUrl, setQrCodeUrl] = useState("");
   const [openQr, setOpenQr] = useState(false);
   const [qr, setQr] = useState("");
+  const [qRCheck, setQRCheck] = useState("");
   const [secretKey, setSecretKey] = useState("");
 
   const handleDelete = async (fileName, url) => {
@@ -81,9 +82,6 @@ const DocumentDetail = () => {
 
   const rejectPDF = async ({ user, fileName, date, url, action }) => {
     try {
-      // console.log("url", url);
-      console.log("fileName", fileName.type);
-      console.log("action", action);
       await addAction("admin", action, fileName.type, url);
       await UrlSign(user, fileName.type, date, url, action);
     } catch (error) {
@@ -91,33 +89,32 @@ const DocumentDetail = () => {
     }
   };
 
-  console.log("qr", qr);
-
   const handleConfirmQr = async ({ user, fileName, date, url, action }) => {
     try {
-      rejectPDF({
-        user: user,
-        fileName: fileName,
-        date: date,
-        url: url,
-        action: action,
-      });
-      // const response = await fetch(
-      //   `http://localhost:5004/api/verify-otp`,
-      //   // `https://server-node-tau.vercel.app/api/verify-otp`,
-      //   {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify({
-      //       otp: qr,
-      //       secret: secretKey,
-      //     }),
-      //   }
-      // );
-      // const data = await response.json();
-      // console.log("confirm to sign", data);
+      const response = await fetch(
+        `https://server-node-tau.vercel.app/api/verify-otp`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            otp: qr,
+            secret: secretKey,
+            token: qRCheck,
+          }),
+        }
+      );
+      const data = await response.json();
+      if (data.valid === true) {
+        rejectPDF({
+          user: user,
+          fileName: fileName,
+          date: date,
+          url: url,
+          action: action,
+        });
+      }
     } catch (error) {
       console.error("Error confirming QR:", error);
     }
@@ -126,8 +123,7 @@ const DocumentDetail = () => {
   const fetchSecretKey = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5004/api/get-secret-key`
-        // `hhttps://server-node-tau.vercel.app/api/get-secret-key`
+        `https://server-node-tau.vercel.app/api/get-secret-key`
       );
       const data = await response.json();
       const secretKey = data.secretKey;
@@ -145,8 +141,7 @@ const DocumentDetail = () => {
     const fetchQrCodeUrl = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5004/api/generate-otp-and-qrcode`,
-          // `https://server-node-tau.vercel.app/api/generate-otp-and-qrcode`,
+          `https://server-node-tau.vercel.app/api/generate-otp-and-qrcode`,
           {
             method: "POST",
             headers: {
@@ -155,14 +150,21 @@ const DocumentDetail = () => {
           }
         );
         const data = await response.json();
-        console.log("have qr- code");
         setQrCodeUrl(data.qrcode);
+        setQRCheck(data.token);
       } catch (error) {
         console.error("Error fetching QR code URL:", error);
       }
     };
 
     fetchQrCodeUrl();
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setOpenQr(false);
+    }, 30000);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -243,6 +245,8 @@ const DocumentDetail = () => {
           </>
         )} */}
       </div>
+      <Link to="/Documents">Back to List</Link>
+
       <div>
         <Row justify={"center"}>
           <Col span={24}>
@@ -309,18 +313,9 @@ const DocumentDetail = () => {
                     style={{
                       marginRight: "10px",
                     }}
-                    onClick={() =>
-                      handleConfirmQr({
-                        user: user,
-                        fileName: fileName,
-                        date: timestampDate.toLocaleString(),
-                        url: fileName.Url[0],
-                        action: "sign",
-                      })
-                    }
-                    // onClick={() => {
-                    //   setOpenQr(true);
-                    // }}
+                    onClick={() => {
+                      setOpenQr(true);
+                    }}
                   >
                     Sign
                   </Button>

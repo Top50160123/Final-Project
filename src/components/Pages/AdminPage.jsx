@@ -60,35 +60,6 @@ function AdminPage() {
     navigate("/Detail", { state: { fileName, user, cmuId } });
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const documentUrl = await getAllSignData(user.email);
-        console.log("documentUrl", documentUrl);
-      } catch (error) {
-        console.error("Error fetching PDF data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (signedDocuments) {
-      // console.log("signedDocuments",signedDocuments[0].email)
-    }
-    // const fetchData = async () => {
-    //   try {
-    //     const documentUrl = await getAllSignData(document.email);
-    //     console.log("documentUrl", documentUrl);
-    //   } catch (error) {
-    //     console.error("Error fetching PDF data:", error);
-    //   }
-    // };
-
-    // fetchData();
-  }, [signedDocuments]);
-
   return (
     <div>
       {/* <div>

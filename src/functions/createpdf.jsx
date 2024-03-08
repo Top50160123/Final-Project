@@ -16,7 +16,6 @@ const generatePDF = async (userInput, fileName) => {
     }
 
     const data = await response.json();
-    console.log("PDF Generated:", data);
     return { success: true, fileUrl: data.fileUrl };
   } catch (error) {
     console.error("Error generating PDF:", error);

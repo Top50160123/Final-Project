@@ -97,7 +97,6 @@ export const ContactUs = () => {
 
     try {
       if (enteredOTP !== generatedOTP && data.email === "admin@admin.com") {
-        console.log("admin ad into database");
         const adminCredential = await signUp(data.email, data.password);
         const adminUid = adminCredential.user.uid;
         checkAdmin(data, adminUid);

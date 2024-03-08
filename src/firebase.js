@@ -310,7 +310,6 @@ async function getUrl(user) {
     const data = docSnapshot.data();
     return data;
   } else {
-    console.log("Document does not exist");
     return null;
   }
 }

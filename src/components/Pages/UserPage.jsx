@@ -32,7 +32,6 @@ function UserPage() {
     const fetchData = async () => {
       try {
         if (location.state) {
-          console.log("CMU", location.state.email);
           const documentUrl = await getUrl(location.state.email);
           setUrlSign(documentUrl);
         } else {
@@ -59,8 +58,6 @@ function UserPage() {
 
     fetchData();
   }, []);
-
-  console.log("urlSignEmail", urlSignEmail);
 
   const handleSignDocument = async () => {
     if (selectedType) {

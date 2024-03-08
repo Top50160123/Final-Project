@@ -38,8 +38,6 @@ const AuditPDF = () => {
     fetchDocuments();
   }, []);
 
-  console.log("documents", documents);
-
   return (
     <div>
       <h1>Audit Document</h1>
