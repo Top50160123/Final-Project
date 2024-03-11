@@ -35,6 +35,9 @@ const CreatePDF = () => {
       }
 
       const data = await response.json();
+      if (data) {
+        alert("Create Success");
+      }
       await createPdf(data.fileName, data.url, "admin");
       await addAction("admin", "create", data.fileName, data.url);
     } catch (error) {

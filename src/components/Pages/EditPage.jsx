@@ -107,6 +107,7 @@ const DocumentDetail = () => {
       );
       const data = await response.json();
       if (data.valid === true) {
+        alert("Sign success");
         rejectPDF({
           user: user,
           fileName: fileName,
