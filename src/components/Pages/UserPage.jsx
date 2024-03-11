@@ -134,6 +134,16 @@ function UserPage() {
       }))
     : [];
 
+  const data2 = urlSign.files
+    ? Object.keys(urlSign.files).map((key) => ({
+        key,
+        fileName: urlSign.files[key].fileName,
+        action: urlSign.files[key].action,
+        date: urlSign.files[key].date,
+        url: urlSign.files[key].url,
+      }))
+    : [];
+
   return (
     <div>
       <h2>Welcome</h2>
@@ -190,9 +200,20 @@ function UserPage() {
           )}
         </Row>
 
-        <div>
-          <Table columns={columns} dataSource={data} />
-        </div>
+        {location.state ? (
+          <>
+            <div>
+              <Table columns={columns} dataSource={data2} />
+            </div>
+          </>
+        ) : (
+          <>
+            <div>
+              <Table columns={columns} dataSource={data} />
+            </div>
+          </>
+        )}
+
         <div>
           <Row justify={"center"}></Row>
         </div>
