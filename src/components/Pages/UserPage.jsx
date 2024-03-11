@@ -75,6 +75,7 @@ function UserPage() {
             selectedType,
             pdfData.find((doc) => doc.data.fileName === selectedType)?.data.url
           );
+          alert("Request Success");
         } else {
           await SignDoc(
             user?.email,
@@ -87,6 +88,7 @@ function UserPage() {
             selectedType,
             pdfData.find((doc) => doc.data.fileName === selectedType)?.data.url
           );
+          alert("Request Success");
         }
       } catch (error) {
         console.error("Error signing document:", error);

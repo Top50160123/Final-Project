@@ -115,6 +115,8 @@ const DocumentDetail = () => {
           url: url,
           action: action,
         });
+      } else {
+        alert("Fail...");
       }
     } catch (error) {
       console.error("Error confirming QR:", error);
