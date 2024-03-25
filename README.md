@@ -1,1 +1,5 @@
-# react-firebase-v9-auth
+# Zero-Trust Security on Document Certification System
+Zero-trust is the concept that makes an organization never trust anything before verifying whether persons, systems, or any appliances in or outside the company. The target of Zero-trust is to increase permission granting in the organization more securely by using VPN or Network access control, etc. Also, an organization cannot control every appliance because employees or users can access every application/system and use it on many devices (Mobile phones, Desktop computers, IoT). Zero-trust five ways to improve security are appliance reliability, user reliability, Session Trust, Application reliability, and Data Trust. 
+Our project is to study the Zero-Trust concept with a document certification system for protecting documents from an insider like developers or admins that want to edit or change the document information before it sends to the user's interface, Where the user can read and see their requested document. We will use a Zero-Trust concept to identify developers , admins, and insiders to identify themself before edit and access to the document by using security techniques such as Biometric identification, VPN , or IP address to check that they are in the organization and to protect suspicious act from attackes inside the organization.
+## Document
+[Website Document]()
