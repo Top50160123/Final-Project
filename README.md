@@ -30,5 +30,5 @@ Our project is to study the Zero-Trust concept with a document certification sys
   ```
 ## Contact
 Thiti Gaewja - thitikawja9@gmail.com
-Arissawat Tresresiri - marchaarissawat@gmail.com
+Arissawat Tresresiri - marcharissawat@gmail.com
 
